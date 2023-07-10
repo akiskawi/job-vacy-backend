@@ -17,7 +17,7 @@
 13. Report / Track Record of past requests
 14. Web based application with User login &amp; password
 
-| Roled   | Permissions                                                                                                  |
+| Roles   | Permissions                                                                                                  |
 |---------|--------------------------------------------------------------------------------------------------------------|
 | Admin   | Register/remove users add "days off" days <br/>Create new types of "days off"<br/> Can be Manager &amp; User |
 | Manager | Approved/rejected requests of their team<br/>See all past requests of their team                             |
