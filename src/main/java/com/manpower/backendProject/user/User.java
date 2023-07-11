@@ -1,5 +1,8 @@
 package com.manpower.backendProject.user;
 
+import com.manpower.backendProject.request.Number_of_request;
+import com.manpower.backendProject.request.Request;
+import com.manpower.backendProject.team.Team;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,10 +31,22 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "userRequest")
+    private List<Request> requests;
+    @ManyToOne
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
+    @OneToOne
+    @JoinColumn(name = "team_manager_id", referencedColumnName = "id")
+    private Team teamManager;
+    @OneToMany(mappedBy = "userNumberOfRequest")
+    private List<Number_of_request> remainingDays;
+    private boolean enabled;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
 
     @Override
@@ -56,6 +71,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

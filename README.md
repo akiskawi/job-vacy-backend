@@ -29,3 +29,5 @@
  - Type of leave "default"
  - Number of day per type
      -  Default = 20 
+ 
+
