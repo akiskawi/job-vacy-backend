@@ -1,12 +1,8 @@
 package com.manpower.backendProject.auth;
 
-import com.manpower.backendProject.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -15,7 +11,6 @@ import java.util.List;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-
 
     @PostMapping("auth/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -29,7 +24,4 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }
-
-
-
 }
