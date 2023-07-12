@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/admin")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     private final AdminService service;
 
@@ -21,12 +22,12 @@ public class AdminController {
     }
 
     @PostMapping("users")
-    public ResponseEntity<Object> createUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<String> createUser(@RequestBody RegisterRequest request) {
         return service.createUser(request);
     }
 
     @PutMapping("users/edit/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable int id, @RequestBody UpdateUser request) {
+    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UpdateUser request) {
         return service.updateUser(id, request);
     }
 
