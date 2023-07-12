@@ -3,6 +3,7 @@ package com.manpower.backendProject.user;
 import com.manpower.backendProject.request.Number_of_request;
 import com.manpower.backendProject.request.Request;
 import com.manpower.backendProject.team.Team;
+import com.manpower.backendProject.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +45,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "userNumberOfRequest")
     private List<Number_of_request> remainingDays;
     private boolean enabled;
+    @OneToMany(mappedBy = "userToken")
+    private List<Token> tokens;
 
 
     @Override

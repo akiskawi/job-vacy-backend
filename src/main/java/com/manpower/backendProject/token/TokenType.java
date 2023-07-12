@@ -1,2 +1,5 @@
-package com.manpower.backendProject.token;public enum TokenType {
+package com.manpower.backendProject.token;
+
+public enum TokenType {
+    BEARER
 }
