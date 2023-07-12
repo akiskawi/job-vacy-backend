@@ -1,7 +1,6 @@
 package com.manpower.backendProject.auth;
 
 import com.manpower.backendProject.config.JwtService;
-import com.manpower.backendProject.user.Role;
 import com.manpower.backendProject.user.User;
 import com.manpower.backendProject.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +23,14 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .roles(request.getRoles())
                 .enabled(true)
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .roles(request.getRoles())
                 .build();
     }
 
