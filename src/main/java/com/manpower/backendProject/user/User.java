@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
     private List<Role> roles;
     @OneToMany(mappedBy = "userRequest")
     private List<Request> requests;
