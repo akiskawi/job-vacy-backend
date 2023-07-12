@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/admin")
+@RequestMapping("api/v1/admin/")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     private final AdminService service;

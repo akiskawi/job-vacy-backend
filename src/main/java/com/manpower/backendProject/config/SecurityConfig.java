@@ -12,11 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebMvc
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -26,9 +28,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .and()
                 .cors()
+                .and()
+                .csrf()
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/login", "/test/**").permitAll()
@@ -55,17 +57,19 @@ public class SecurityConfig {
 
 
         return http.build();
+
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        //.allowedMethods("*") //default is GET, HEAD, POST which is enough
-                        .allowedOrigins("http://localhost:4000/")
-                        .exposedHeaders("Access-Control-Allow-Origin", "access_token");
+                registry.addMapping("/*").allowedOrigins("*").allowedMethods("GET", "POST", "DELETE", "PUT");
+
             }
         };
     }
+
+
 }
