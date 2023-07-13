@@ -1,6 +1,7 @@
 package com.manpower.backendProject.auth;
 
 import com.manpower.backendProject.config.JwtService;
+import com.manpower.backendProject.controllers.dao.UserDao;
 import com.manpower.backendProject.token.Token;
 import com.manpower.backendProject.token.TokenRepository;
 import com.manpower.backendProject.token.TokenType;
@@ -35,9 +36,6 @@ public class AuthenticationService {
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .email(request.getEmail())
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
                 .build();
     }
 
@@ -55,6 +53,16 @@ public class AuthenticationService {
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .userDao(
+                        UserDao.builder()
+                                .id(user.getId())
+                                .firstname((user.getFirstname()))
+                                .lastname((user.getLastname()))
+                                .roles(user.getRoles())
+                                .enabled(user.isEnabled())
+                                .build()
+                )
+
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.manpower.backendProject.auth;
 
+import com.manpower.backendProject.controllers.dao.UserDao;
 import com.manpower.backendProject.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +16,6 @@ import java.util.List;
 public class AuthenticationResponse {
 
     private String token;
-    private String email;
-    private String firstname;
-    private String lastname;
-//    private List<Role> roles;
+    private UserDao userDao;
 
 }
