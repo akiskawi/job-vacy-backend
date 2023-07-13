@@ -50,7 +50,7 @@ public class AuthenticationService {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         var jwtToken = jwtService.generateToken(user);
-        revokeAllUserTokens(user);
+        revokeAllUserTokens(user); //TODO: auto kanei expires ola ta token tou xrhsth (kai apo alla pc)
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -89,4 +89,3 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 }
-

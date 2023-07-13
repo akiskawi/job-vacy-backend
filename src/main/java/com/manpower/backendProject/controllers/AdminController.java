@@ -40,6 +40,4 @@ public class AdminController {
     public ResponseEntity<String> activateUser(@PathVariable int id) {
         return service.activeAccount(id);
     }
-
-
 }

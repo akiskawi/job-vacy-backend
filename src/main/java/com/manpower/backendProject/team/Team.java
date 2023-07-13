@@ -2,9 +2,13 @@ package com.manpower.backendProject.team;
 
 import com.manpower.backendProject.user.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 @Entity
 @Table(name = "teams")
 @AllArgsConstructor
@@ -17,6 +21,6 @@ public class Team {
     private int id;
     @OneToOne(mappedBy = "teamManager")
     private User manager;
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
     private List<User> members;
 }
