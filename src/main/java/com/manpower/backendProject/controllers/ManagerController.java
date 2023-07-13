@@ -1,8 +1,11 @@
 package com.manpower.backendProject.controllers;
 
+import com.manpower.backendProject.services.ManagerService;
+import com.manpower.backendProject.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,8 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/manager")
 public class ManagerController {
-    @GetMapping
-    public ResponseEntity<String> sayHelloManager(){
-        return ResponseEntity.ok("manager");
+
+    private final ManagerService service;
+    @GetMapping("users")
+    public ResponseEntity<Object> getTeamMembers(@RequestBody Integer team_id){
+        return service.getTeamMembers(team_id);
+    }
+
+    @GetMapping("test")
+    public ResponseEntity<String> test(@RequestBody Integer test){
+        return ResponseEntity.ok("test: " + test);
     }
 }

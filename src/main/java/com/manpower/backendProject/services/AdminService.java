@@ -7,6 +7,7 @@ import com.manpower.backendProject.controllers.dao.UpdateUser;
 import com.manpower.backendProject.controllers.dao.UserDao;
 import com.manpower.backendProject.user.User;
 import com.manpower.backendProject.user.UserRepository;
+import com.manpower.backendProject.util.EntityToDaoHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,22 +26,7 @@ public class AdminService {
     public ResponseEntity<Object> getUsers(){
         var users = repository.findAll();
         return  ResponseEntity.ok(
-                users.stream().map(
-                user -> UserDao
-                        .builder()
-                        .id(user.getId())
-                        .firstname(user.getFirstname())
-                        .lastname(user.getLastname())
-                        .email(user.getEmail())
-                        .roles(user.getRoles())
-//                        .requests(user.getRequests())
-//                        .team(user.getTeam())
-//                        .teamManager(user.getTeamManager())
-//                        .remainingDays((user.getRemainingDays()))
-                        .enabled(user.isEnabled())
-                        .build()
-
-        ).toList());
+                users.stream().map(EntityToDaoHelper::userToUserDao).toList());
     }
 
     public ResponseEntity<String> createUser(RegisterRequest request){
