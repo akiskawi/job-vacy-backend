@@ -1,8 +1,7 @@
 package com.manpower.backendProject;
 
-import com.manpower.backendProject.auth.AuthenticationResponse;
-import com.manpower.backendProject.auth.AuthenticationService;
 import com.manpower.backendProject.auth.RegisterRequest;
+import com.manpower.backendProject.services.AdminService;
 import com.manpower.backendProject.team.Team;
 import com.manpower.backendProject.team.TeamRepository;
 import com.manpower.backendProject.user.Role;
@@ -14,8 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,7 +24,7 @@ public class BackendProjectApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner(
-            AuthenticationService service,
+            AdminService service,
             PasswordEncoder passwordEncoder,
             UserRepository repository,
             TeamRepository teamRepository
@@ -110,13 +107,11 @@ public class BackendProjectApplication {
                     .roles(List.of(Role.ADMIN, Role.USER))
                     .build();
 
-            var tokens = new HashMap<String, AuthenticationResponse>();
-            tokens.put("admin", service.register(admin));
-            tokens.put("manager", service.register(manager));
-            tokens.put("user", service.register(user));
-            tokens.put("adminUser", service.register(adminUser));
+            service.createUser(admin);
+            service.createUser(manager);
+            service.createUser(user);
+            service.createUser(adminUser);
 
-            tokens.forEach((x, y) -> System.out.println(x + " = " + y));
 
         };
     }

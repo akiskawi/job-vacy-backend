@@ -33,8 +33,6 @@ public class AuthenticationService {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = getUserTokenString(user);
-//        revokeAllUserTokens(user); //loggout!!!!!!!!!!!
-        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .userDao(
@@ -52,7 +50,9 @@ public class AuthenticationService {
                 return token;
             }
         }
-        return jwtService.generateToken(user);
+        var token = jwtService.generateToken(user);
+        saveUserToken(user, token);
+        return token;
     }
 
     private Token generateToken() {

@@ -38,10 +38,10 @@ public class User implements UserDetails {
     private List<Role> roles;
     @OneToMany(mappedBy = "userRequest")
     private List<Request> requests;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "team_manager_id", referencedColumnName = "id")
     private Team teamManager;
     @OneToMany(mappedBy = "userNumberOfRequest")

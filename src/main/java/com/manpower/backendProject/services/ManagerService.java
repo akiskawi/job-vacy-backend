@@ -25,7 +25,7 @@ public class ManagerService {
         List<UserDao> usersDao = users.stream().map(EntityToDaoHelper::userToUserDao).toList();
         TeamDao teamDao = TeamDao.builder()
                 .id(team_id)
-                .manager(null)
+                .manager(managerDao)
                 .members(usersDao)
                 .build();
         return ResponseEntity.ok(teamDao);

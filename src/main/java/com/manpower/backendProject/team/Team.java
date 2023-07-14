@@ -1,5 +1,7 @@
 package com.manpower.backendProject.team;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.manpower.backendProject.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,7 +22,9 @@ public class Team {
     @GeneratedValue
     private int id;
     @OneToOne(mappedBy = "teamManager")
+    @JsonIgnoreProperties({"teamManager", "team"})
     private User manager;
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"teamManager", "team"})
     private List<User> members;
 }
