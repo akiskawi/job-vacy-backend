@@ -18,5 +18,5 @@ public class AuthenticationRequest {
     @Email(message = "Please enter a valid email.")
     private String email;
     @NotBlank(message = "Please enter a password.")
-    String password;
+    private String password;
 }

@@ -5,6 +5,8 @@ import com.manpower.backendProject.auth.RegisterRequest;
 import com.manpower.backendProject.config.JwtService;
 import com.manpower.backendProject.controllers.dao.UpdateUser;
 import com.manpower.backendProject.controllers.dao.UserDao;
+import com.manpower.backendProject.exception.UserAlreadyExistsException;
+import com.manpower.backendProject.exception.UserNotFoundException;
 import com.manpower.backendProject.user.User;
 import com.manpower.backendProject.user.UserRepository;
 import com.manpower.backendProject.util.EntityToDaoHelper;
@@ -39,10 +41,10 @@ public class AdminService {
                 .enabled(true)
                 .build();
         if (repository.findByEmail(request.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body("Email already existed");
+            throw new UserAlreadyExistsException("User already exists.");
         }
         repository.save(user);
-        return ResponseEntity.ok("User created successfully");
+        return ResponseEntity.ok("User created successfully.");
     }
 
     public ResponseEntity<String> updateUser(int id, UpdateUser request){
@@ -52,23 +54,23 @@ public class AdminService {
         if (request.getPassword()!=null) user.setPassword(request.getPassword());
         if (request.getRoles()!=null) user.setRoles(request.getRoles());
         repository.save(user);
-        return ResponseEntity.ok("User updated successfully");
+        return ResponseEntity.ok("User updated successfully.");
     }
     public ResponseEntity<String> deActiveAccount(int id){
         var user = getSingleUser(id);
         user.setEnabled(false);
         repository.save(user);
-        return ResponseEntity.ok("User deactivated successfully");
+        return ResponseEntity.ok("User deactivated successfully.");
     }
     public ResponseEntity<String> activeAccount(int id){
         var user = getSingleUser(id);
         user.setEnabled(true);
         repository.save(user);
-        return ResponseEntity.ok("User activated successfully");
+        return ResponseEntity.ok("User activated successfully.");
     }
 
     public User getSingleUser(int id){
         return repository.findById(id)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+                .orElseThrow(()-> new UserNotFoundException("User not found."));
     }
 }
