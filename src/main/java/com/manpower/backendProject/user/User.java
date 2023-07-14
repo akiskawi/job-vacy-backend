@@ -29,7 +29,9 @@ public class User implements UserDetails {
     private int id;
     private String firstname;
     private String lastname;
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -37,10 +39,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "userRequest")
     private List<Request> requests;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id", referencedColumnName = "id")//, insertable = false, updatable = false)
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_manager_id", referencedColumnName = "id")//, insertable = false, updatable = false)
+    @JoinColumn(name = "team_manager_id", referencedColumnName = "id")
     private Team teamManager;
     @OneToMany(mappedBy = "userNumberOfRequest")
     private List<Number_of_request> remainingDays;

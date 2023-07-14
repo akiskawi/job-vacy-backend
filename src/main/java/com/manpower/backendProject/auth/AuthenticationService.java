@@ -2,6 +2,7 @@ package com.manpower.backendProject.auth;
 
 import com.manpower.backendProject.config.JwtService;
 import com.manpower.backendProject.controllers.dao.UserDao;
+import com.manpower.backendProject.exception.UserAlreadyExistsException;
 import com.manpower.backendProject.token.Token;
 import com.manpower.backendProject.token.TokenRepository;
 import com.manpower.backendProject.token.TokenType;
@@ -10,7 +11,6 @@ import com.manpower.backendProject.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +32,9 @@ public class AuthenticationService {
                 .roles(request.getRoles())
                 .enabled(true)
                 .build();
+        if (repository.findByEmail(request.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException("User already exists.");
+        };
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         saveUserToken(user, jwtToken);
@@ -48,7 +51,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user); //TODO: auto kanei expires ola ta token tou xrhsth (kai apo alla pc)
         saveUserToken(user, jwtToken);

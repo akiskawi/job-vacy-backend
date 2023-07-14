@@ -30,5 +30,4 @@ public class UserDao {
 //    private Team teamManager;
 //    private List<Number_of_request> remainingDays;
     private boolean enabled;
-
 }

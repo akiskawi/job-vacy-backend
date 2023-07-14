@@ -1,5 +1,6 @@
 package com.manpower.backendProject.auth;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +13,17 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @PostMapping("auth/register")
+    @PostMapping("admin/register")
+    @ResponseBody
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok( service.register(request));
     }
     @PostMapping("auth/login")
+    @ResponseBody
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+            @Valid @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }

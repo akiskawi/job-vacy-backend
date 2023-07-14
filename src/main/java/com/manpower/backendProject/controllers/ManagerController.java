@@ -1,7 +1,6 @@
 package com.manpower.backendProject.controllers;
 
 import com.manpower.backendProject.services.ManagerService;
-import com.manpower.backendProject.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
