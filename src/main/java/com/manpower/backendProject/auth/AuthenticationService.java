@@ -2,7 +2,6 @@ package com.manpower.backendProject.auth;
 
 import com.manpower.backendProject.config.JwtService;
 import com.manpower.backendProject.controllers.dao.UserDao;
-import com.manpower.backendProject.exception.UserAlreadyExistsException;
 import com.manpower.backendProject.token.Token;
 import com.manpower.backendProject.token.TokenRepository;
 import com.manpower.backendProject.token.TokenType;
@@ -23,25 +22,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(request.getRoles())
-                .enabled(true)
-                .build();
-        if (repository.findByEmail(request.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException("User already exists.");
-        };
-        repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        saveUserToken(user, jwtToken);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -52,43 +32,49 @@ public class AuthenticationService {
         );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        revokeAllUserTokens(user); //TODO: auto kanei expires ola ta token tou xrhsth (kai apo alla pc)
+        var jwtToken = getUserTokenString(user);
+//        revokeAllUserTokens(user); //loggout!!!!!!!!!!!
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .userDao(
-                        UserDao.builder()
-                                .id(user.getId())
-                                .firstname((user.getFirstname()))
-                                .lastname((user.getLastname()))
-                                .roles(user.getRoles())
-                                .enabled(user.isEnabled())
-                                .build()
+                        UserDao.buildUserDao(user)
                 )
 
                 .build();
+    }
+
+    private String getUserTokenString(User user) {
+        var tmpToken = tokenRepository.findAllValidTokenByUser(user.getId()).stream().findFirst();
+        if (tmpToken.isPresent()) {
+            String token = tmpToken.get().getToken();
+            if (jwtService.isTokenValid(token, user)) {
+                return token;
+            }
+        }
+        return jwtService.generateToken(user);
+    }
+
+    private Token generateToken() {
+        return null;
     }
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
                 .userToken(user)
                 .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .expired(false)
                 .revoked(false)
                 .build();
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
-            return;
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
+//    private void revokeAllUserTokens(User user) {
+//        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+//        if (validUserTokens.isEmpty())
+//            return;
+//        validUserTokens.forEach(token -> {
+//            token.setRevoked(true);
+//        });
+//        tokenRepository.saveAll(validUserTokens);
+//    }
 }
