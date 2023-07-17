@@ -1,12 +1,13 @@
-package com.manpower.backendProject.auth;
+package com.manpower.backendProject.services;
 
 import com.manpower.backendProject.config.JwtService;
-import com.manpower.backendProject.controllers.dao.UserDao;
-import com.manpower.backendProject.token.Token;
-import com.manpower.backendProject.token.TokenRepository;
-import com.manpower.backendProject.token.TokenType;
-import com.manpower.backendProject.user.User;
-import com.manpower.backendProject.user.UserRepository;
+import com.manpower.backendProject.models.dao.AuthenticationRequest;
+import com.manpower.backendProject.models.dao.AuthenticationResponse;
+import com.manpower.backendProject.models.dao.UserDao;
+import com.manpower.backendProject.models.token.Token;
+import com.manpower.backendProject.repositories.TokenRepository;
+import com.manpower.backendProject.models.user.User;
+import com.manpower.backendProject.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

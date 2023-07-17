@@ -1,7 +1,7 @@
 package com.manpower.backendProject.controllers;
 
-import com.manpower.backendProject.auth.RegisterRequest;
-import com.manpower.backendProject.controllers.dao.UpdateUser;
+import com.manpower.backendProject.models.dao.RegisterRequest;
+import com.manpower.backendProject.models.dao.UpdateUser;
 import com.manpower.backendProject.services.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

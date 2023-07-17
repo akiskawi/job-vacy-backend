@@ -1,6 +1,6 @@
 package com.manpower.backendProject.config;
 
-import com.manpower.backendProject.token.TokenRepository;
+import com.manpower.backendProject.repositories.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.manpower.backendProject.user;
+package com.manpower.backendProject.models.user;
 
 public enum Role {
     USER,

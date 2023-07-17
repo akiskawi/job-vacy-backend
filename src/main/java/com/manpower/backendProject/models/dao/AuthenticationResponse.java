@@ -1,13 +1,10 @@
-package com.manpower.backendProject.auth;
+package com.manpower.backendProject.models.dao;
 
-import com.manpower.backendProject.controllers.dao.UserDao;
-import com.manpower.backendProject.user.Role;
+import com.manpower.backendProject.models.dao.UserDao;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Builder

@@ -1,4 +1,4 @@
-package com.manpower.backendProject.secure;
+package com.manpower.backendProject.test;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

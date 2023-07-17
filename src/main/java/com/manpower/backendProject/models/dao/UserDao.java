@@ -1,14 +1,7 @@
-package com.manpower.backendProject.controllers.dao;
+package com.manpower.backendProject.models.dao;
 
-import com.manpower.backendProject.request.Number_of_request;
-import com.manpower.backendProject.request.Request;
-import com.manpower.backendProject.team.Team;
-import com.manpower.backendProject.user.Role;
-import com.manpower.backendProject.user.User;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import com.manpower.backendProject.models.user.Role;
+import com.manpower.backendProject.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

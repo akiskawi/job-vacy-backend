@@ -1,4 +1,4 @@
-package com.manpower.backendProject.auth;
+package com.manpower.backendProject.models.dao;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

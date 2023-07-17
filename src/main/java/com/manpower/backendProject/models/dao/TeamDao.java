@@ -1,4 +1,4 @@
-package com.manpower.backendProject.controllers.dao;
+package com.manpower.backendProject.models.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

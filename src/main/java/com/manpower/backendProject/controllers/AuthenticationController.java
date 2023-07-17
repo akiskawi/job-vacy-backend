@@ -1,5 +1,8 @@
-package com.manpower.backendProject.auth;
+package com.manpower.backendProject.controllers;
 
+import com.manpower.backendProject.models.dao.AuthenticationRequest;
+import com.manpower.backendProject.models.dao.AuthenticationResponse;
+import com.manpower.backendProject.services.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

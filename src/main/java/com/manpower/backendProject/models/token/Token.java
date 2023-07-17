@@ -1,6 +1,6 @@
-package com.manpower.backendProject.token;
+package com.manpower.backendProject.models.token;
 
-import com.manpower.backendProject.user.User;
+import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

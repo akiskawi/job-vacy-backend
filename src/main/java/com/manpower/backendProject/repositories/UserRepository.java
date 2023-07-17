@@ -1,5 +1,6 @@
-package com.manpower.backendProject.user;
+package com.manpower.backendProject.repositories;
 
+import com.manpower.backendProject.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

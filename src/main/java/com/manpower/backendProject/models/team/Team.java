@@ -1,8 +1,7 @@
-package com.manpower.backendProject.team;
+package com.manpower.backendProject.models.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-import com.manpower.backendProject.user.User;
+import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

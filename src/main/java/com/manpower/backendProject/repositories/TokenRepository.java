@@ -1,5 +1,6 @@
-package com.manpower.backendProject.token;
+package com.manpower.backendProject.repositories;
 
+import com.manpower.backendProject.models.token.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

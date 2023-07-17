@@ -1,8 +1,8 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.controllers.dao.TeamDao;
-import com.manpower.backendProject.controllers.dao.UserDao;
-import com.manpower.backendProject.user.UserRepository;
+import com.manpower.backendProject.models.dao.TeamDao;
+import com.manpower.backendProject.models.dao.UserDao;
+import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.EntityToDaoHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
