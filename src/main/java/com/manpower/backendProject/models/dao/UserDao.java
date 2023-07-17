@@ -19,10 +19,6 @@ public class UserDao {
     private String lastname;
     private String email;
     private List<Role> roles;
-//    private List<Request> requests;
-//    private Team team;
-//    private Team teamManager;
-//    private List<Number_of_request> remainingDays;
     private boolean enabled;
 
 

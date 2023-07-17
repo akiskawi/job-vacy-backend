@@ -1,12 +1,16 @@
 package com.manpower.backendProject.controllers;
 
+import com.manpower.backendProject.models.dao.CreateTeamDao;
 import com.manpower.backendProject.models.dao.RegisterRequest;
 import com.manpower.backendProject.models.dao.UpdateUser;
+import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.services.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,20 +30,38 @@ public class AdminController {
         return service.createUser(request);
     }
 
-    // TODO: xreiazetai to edit? afou einai diaforetiko request apo to delete,
-    //  an einai etsi na to kanoume: /{id}/edit, /{id}/delete, /{id}/enable klp kalutera?
-    @PutMapping("users/edit/{id}")
+    @PutMapping("users/{id}")
     public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UpdateUser request) {
         return service.updateUser(id, request);
     }
 
-    @DeleteMapping("users/delete/{id}")
+    @DeleteMapping("users/{id}")
     public ResponseEntity<String> DeActivateUser(@PathVariable int id) {
-       return service.deActiveAccount(id);
+        return service.deActiveAccount(id);
     }
 
-    @PostMapping("users/enable/{id}")
+    @PostMapping("users/{id}")
     public ResponseEntity<String> activateUser(@PathVariable int id) {
         return service.activeAccount(id);
     }
+
+    @PostMapping("team")
+    public ResponseEntity<String> createTeamWithManagerAndMembers(@RequestBody CreateTeamDao createTeamDao) {
+        return service.createTeamWithManagerAndMembers(createTeamDao);
+    }
+
+    @PutMapping("team/{id}")
+    public ResponseEntity<String> updateTeamWithManagerAndMembers(@PathVariable int id,@RequestBody CreateTeamDao createTeamDao) {
+        return service.updateTeamWithManagerAndMembers(id,createTeamDao);
+    }
+    @DeleteMapping("team/{id}")
+    public ResponseEntity<String> deleteTeam(@PathVariable int id){
+        return service.deleteTeamById(id);
+    }
+
+    @GetMapping("team")
+    public ResponseEntity<Object> getAllTeams(){
+        return service.getTeams();
+    }
+
 }
