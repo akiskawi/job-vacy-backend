@@ -1,29 +1,28 @@
 package com.manpower.backendProject.models.user;
 
+import com.manpower.backendProject.models.Timestamped;
 import com.manpower.backendProject.models.leave.LeaveRequestAvailableDays;
 import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.token.Token;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "_user")
-public class User implements UserDetails {
+public class User extends Timestamped implements UserDetails {
     @Id
     @GeneratedValue
     private int id;
@@ -48,6 +47,9 @@ public class User implements UserDetails {
     private boolean enabled;
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+
+
+
 
 
     @Override

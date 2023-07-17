@@ -3,14 +3,12 @@ package com.manpower.backendProject.models.leave;
 import com.manpower.backendProject.models.Timestamped;
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "requests")
 @AllArgsConstructor
