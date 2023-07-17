@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "_user")
@@ -34,7 +35,7 @@ public class User extends Timestamped implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "requestsUser")
     private List<LeaveRequest> requests;
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
@@ -42,10 +43,10 @@ public class User extends Timestamped implements UserDetails {
     @OneToOne
     @JoinColumn(name = "team_manager_id", referencedColumnName = "id")
     private Team teamManager;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "usersLeaveRequestsRemainingDays")
     private List<LeaveRequestAvailableDays> remainingDays;
     private boolean enabled;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "tokensUser")
     private List<Token> tokens;
 
 

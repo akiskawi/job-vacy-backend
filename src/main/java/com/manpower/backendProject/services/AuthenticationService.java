@@ -10,7 +10,6 @@ import com.manpower.backendProject.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +31,8 @@ public class AuthenticationService {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = getUserTokenString(user);
+        //var jwtToken = jwtService.generateToken(user);
+        //saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .userDao(UserDao.buildUserDao(user))
@@ -57,7 +58,7 @@ public class AuthenticationService {
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
-                .user(user)
+                .tokensUser(user)
                 .token(jwtToken)
                 .revoked(false)
                 .build();

@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -21,7 +19,7 @@ public class UserService {
 
     public ResponseEntity<Object> getUsersLeaveRequests(int id) {
         findUserByIdOrElseThrow(id);
-        var leaveRequests = leaveRequestRepository.findAllByUserId(id);
+        var leaveRequests = leaveRequestRepository.findAllByRequestsUserId(id);
         return ResponseEntity.ok(leaveRequests);
     }
 
@@ -32,7 +30,7 @@ public class UserService {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .status(LeaveRequestSTATUS.PENDING)
-                .user(user)
+                .requestsUser(user)
                 .build();
         leaveRequestRepository.save(leaveRequest);
         return ResponseEntity.ok("Leave Request was submitted.");
@@ -40,7 +38,7 @@ public class UserService {
 
     public ResponseEntity<LeaveRequest> getLeaveRequestById(int user_id, int requestId) {
         var user = findUserByIdOrElseThrow(user_id);
-        var leaveRequest = leaveRequestRepository.findOneByIdAndUser_Id(requestId, user_id);
+        var leaveRequest = leaveRequestRepository.findOneByIdAndRequestsUser_Id(requestId, user_id);
         if (leaveRequest == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(leaveRequest);
     }

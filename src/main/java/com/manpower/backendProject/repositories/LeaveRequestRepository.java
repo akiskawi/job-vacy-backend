@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LeaveRequestRepository extends JpaRepository<LeaveRequest,Integer> {
-    List<LeaveRequest> findAllByUserId(int userId);
+    List<LeaveRequest> findAllByRequestsUserId(int requestsUserId);
 
-    LeaveRequest findOneByIdAndUser_Id(int leaveRequestId, int userId);
+    LeaveRequest findOneByIdAndRequestsUser_Id(int id, int requestsUserId);
 }

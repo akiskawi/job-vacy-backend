@@ -29,5 +29,5 @@ public class LeaveRequest extends Timestamped {
     private LeaveRequestSTATUS status;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User requestsUser;
 }
