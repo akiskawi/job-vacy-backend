@@ -3,14 +3,11 @@ package com.manpower.backendProject.controllers;
 import com.manpower.backendProject.models.dao.CreateTeamDao;
 import com.manpower.backendProject.models.dao.RegisterRequest;
 import com.manpower.backendProject.models.dao.UpdateUser;
-import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.services.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,6 +59,11 @@ public class AdminController {
     @GetMapping("team")
     public ResponseEntity<Object> getAllTeams(){
         return service.getTeams();
+    }
+
+    @GetMapping("leaverequests")
+    public ResponseEntity<Object> getAllLeaveRequests() {
+        return service.getRequests();
     }
 
 }

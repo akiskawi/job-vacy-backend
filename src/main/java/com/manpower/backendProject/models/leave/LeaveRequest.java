@@ -1,5 +1,6 @@
-package com.manpower.backendProject.models.request;
+package com.manpower.backendProject.models.leave;
 
+import com.manpower.backendProject.models.Timestamped;
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,19 +17,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @Builder
-public class Request {
+public class LeaveRequest extends Timestamped {
     @Id
     @GeneratedValue
     private int id;
     @Enumerated(EnumType.STRING)
-    private RequestTYPE type;
+    private LeaveRequestTYPE type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate startDate;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate endDate;
     @Enumerated(EnumType.STRING)
-    private RequestSTATUS status;
+    private LeaveRequestSTATUS status;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userRequest;
+    private User user;
 }

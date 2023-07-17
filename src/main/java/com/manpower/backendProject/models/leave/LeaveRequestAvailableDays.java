@@ -1,4 +1,4 @@
-package com.manpower.backendProject.models.request;
+package com.manpower.backendProject.models.leave;
 
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
@@ -7,21 +7,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>A class that represents the available leave days for a user.</p>
+ */
 @Entity
 @Table(name = "number_of_requests")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class Number_of_request {
+public class LeaveRequestAvailableDays {
     @Id
     @GeneratedValue
     private int id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userNumberOfRequest;
+    private User user;
     private int taken;
     private int remaining;
     @Enumerated(EnumType.STRING)
-    private RequestTYPE type;
+    private LeaveRequestTYPE type;
 }

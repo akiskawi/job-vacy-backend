@@ -1,4 +1,4 @@
-package com.manpower.backendProject.config;
+package com.manpower.backendProject.services;
 
 import com.manpower.backendProject.repositories.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,6 +1,5 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.config.JwtService;
 import com.manpower.backendProject.models.dao.AuthenticationRequest;
 import com.manpower.backendProject.models.dao.AuthenticationResponse;
 import com.manpower.backendProject.models.dao.UserDao;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
@@ -36,10 +34,7 @@ public class AuthenticationService {
         var jwtToken = getUserTokenString(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .userDao(
-                        UserDao.buildUserDao(user)
-                )
-
+                .userDao(UserDao.buildUserDao(user))
                 .build();
     }
 
@@ -62,7 +57,7 @@ public class AuthenticationService {
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
-                .userToken(user)
+                .user(user)
                 .token(jwtToken)
                 .revoked(false)
                 .build();

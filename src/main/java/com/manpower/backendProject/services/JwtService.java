@@ -1,4 +1,4 @@
-package com.manpower.backendProject.config;
+package com.manpower.backendProject.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

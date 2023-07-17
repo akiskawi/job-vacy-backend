@@ -1,7 +1,7 @@
 package com.manpower.backendProject.models.user;
 
-import com.manpower.backendProject.models.request.Number_of_request;
-import com.manpower.backendProject.models.request.Request;
+import com.manpower.backendProject.models.leave.LeaveRequestAvailableDays;
+import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.token.Token;
 import jakarta.persistence.*;
@@ -33,21 +33,20 @@ public class User implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String password;
-//    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
-    @OneToMany(mappedBy = "userRequest")
-    private List<Request> requests;
+    @OneToMany(mappedBy = "user")
+    private List<LeaveRequest> requests;
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
     @OneToOne
     @JoinColumn(name = "team_manager_id", referencedColumnName = "id")
     private Team teamManager;
-    @OneToMany(mappedBy = "userNumberOfRequest")
-    private List<Number_of_request> remainingDays;
+    @OneToMany(mappedBy = "user")
+    private List<LeaveRequestAvailableDays> remainingDays;
     private boolean enabled;
-    @OneToMany(mappedBy = "userToken")
+    @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
 

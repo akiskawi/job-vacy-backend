@@ -4,8 +4,10 @@ import com.manpower.backendProject.exception.TeamNotFoundException;
 import com.manpower.backendProject.exception.UserAlreadyExistsException;
 import com.manpower.backendProject.exception.UserNotFoundException;
 import com.manpower.backendProject.models.dao.*;
+import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.user.User;
+import com.manpower.backendProject.repositories.LeaveRequestRepository;
 import com.manpower.backendProject.repositories.TeamRepository;
 import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.EntityToDaoHelper;
@@ -22,6 +24,7 @@ public class AdminService {
     private final UserRepository repository;
     private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
+    private final LeaveRequestRepository leaveRequestRepository;
 
 
     public ResponseEntity<Object> getUsers() {
@@ -122,4 +125,9 @@ public class AdminService {
                 .toList();
         return ResponseEntity.ok(teamDaos);
     }
-}
+
+    public ResponseEntity<Object> getRequests() {
+        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAll();
+        return ResponseEntity.ok(leaveRequests);
+    }
+ }
