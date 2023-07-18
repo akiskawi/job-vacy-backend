@@ -55,5 +55,3 @@ leave_request_available_days.taken Χρειάζεται να αποθηκεύε�
 ### ER Diagram
 
 ![](/docs/ER_Diagram.svg)
-
-![](\docs\ER_Diagram.svg)

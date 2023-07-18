@@ -1,33 +1,18 @@
-# Backend Api for job day off
+# Backend Api for Leave Request App
 
-### Functionalities
+An application used to manage leave requests made by
+employees of a company.
 
-1. Calendar
-2. Personal Dashboard
-3. Admin Dashboard
-4. When submitting request, sending an email
-5. Receiving an email when request has been approved / rejected
-6. Admin roles (access to everything)
-7. User roles (access to his/her data)
-8. Manager roles (access to his/her team)
-9. Creation of Teams (by Admin)
-10. Auto calculation of leave rights
-11. Multiple types of Leaves
-12. Examine possibility of extracting reports (CSV / Excel), if possible
-13. Report / Track Record of past requests
-14. Web based application with User login &amp; password
+Specifications file: [specs.md](docs/specs.md)   
+Design doc: [design-prototype.md](/docs/design-prototype.md)   
+E/R Diagram: [ER_diagram.svg](/docs/ER_Diagram.svg)
 
-| Roles   | Permissions                                                                                                  |
-|---------|--------------------------------------------------------------------------------------------------------------|
-| Admin   | Register/remove users add "days off" days <br/>Create new types of "days off"<br/> Can be Manager &amp; User |
-| Manager | Approved/rejected requests of their team<br/>See all past requests of their team                             |
-| User    | See their past requests, submit request                                                                      |
+Frontend Repository: [frontend repo](https://github.com/StavrosSpil/job-vacy-frontend)
 
+### Technologies used
 
-##### Version 1
-
- - Type of leave "default"
- - Number of day per type
-     -  Default = 20 
- 
-
+- PostgreSQL
+- JDK 17
+- Java Spring Boot 3.0.5
+- Maven
+- Docker
