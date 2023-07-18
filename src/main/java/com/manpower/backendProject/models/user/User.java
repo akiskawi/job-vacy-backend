@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Table(name = "_user")
 public class User extends Timestamped implements UserDetails {
