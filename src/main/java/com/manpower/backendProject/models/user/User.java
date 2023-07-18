@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
