@@ -30,6 +30,7 @@ public class BackendProjectApplication {
             TeamRepository teamRepository
     ) {
         return args -> {
+            if (repository.findById(1).isPresent()) return;
             var team1 = Team
                     .builder()
                     .build();

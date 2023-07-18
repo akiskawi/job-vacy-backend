@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Table(name = "_user")
 public class User extends Timestamped implements UserDetails {
