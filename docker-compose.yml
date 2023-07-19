@@ -17,7 +17,7 @@ services:
       - db
 
   db:
-    image: postgres:14.1-alpine
+    image: postgres
     restart: always
     container_name: db
     ports:

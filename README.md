@@ -9,6 +9,16 @@ E/R Diagram: [ER_diagram.svg](/docs/ER_Diagram.svg)
 
 Frontend Repository: [frontend repo](https://github.com/StavrosSpil/job-vacy-frontend)
 
+### How to Install
+
+- Download and Install [docker](https://www.docker.com/products/docker-desktop/)
+- Download this repository
+- Run the following commands to build docker images
+  - `./mvnw clean package -DskipTests`
+- `docker-compose up` to start the app
+- `docker-compose down` to stop
+- In order to build a new image if you have an older version use `docker-compose up --build`
+
 ### Technologies used
 
 - PostgreSQL
