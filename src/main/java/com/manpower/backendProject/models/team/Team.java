@@ -20,8 +20,9 @@ public class Team {
     @Id
     @GeneratedValue
     private int id;
-    @OneToOne(mappedBy = "teamManager")
+    @OneToOne
     @JsonIgnoreProperties({"teamManager", "team"})
+    @JoinColumn(name = "manager_id", referencedColumnName = "id")
     private User manager;
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"teamManager", "team"})

@@ -40,8 +40,7 @@ public class User extends Timestamped implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
-    @OneToOne
-    @JoinColumn(name = "team_manager_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "manager")
     private Team teamManager;
     @OneToMany(mappedBy = "usersLeaveRequestsRemainingDays")
     private List<LeaveRequestAvailableDays> remainingDays;
