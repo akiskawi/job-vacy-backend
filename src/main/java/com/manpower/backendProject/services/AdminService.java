@@ -1,22 +1,28 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.exception.TeamNotFoundException;
-import com.manpower.backendProject.exception.UserAlreadyExistsException;
-import com.manpower.backendProject.exception.UserNotFoundException;
-import com.manpower.backendProject.models.dao.*;
+import com.manpower.backendProject.models.team.CreateTeamDao;
+import com.manpower.backendProject.models.team.TeamDao;
+import com.manpower.backendProject.models.team.TeamNotFoundException;
+import com.manpower.backendProject.models.user.*;
+import com.manpower.backendProject.models.auth.*;
 import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.team.Team;
-import com.manpower.backendProject.models.user.User;
 import com.manpower.backendProject.repositories.LeaveRequestRepository;
 import com.manpower.backendProject.repositories.TeamRepository;
 import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.EntityToDaoHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static java.util.Arrays.stream;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +33,15 @@ public class AdminService {
     private final LeaveRequestRepository leaveRequestRepository;
 
 
-    public ResponseEntity<Object> getUsers() {
-        var users = repository.findAll();
-        return ResponseEntity.ok(
-                users.stream().map(EntityToDaoHelper::userToUserDao).toList());
+    public ResponseEntity<Object> getUsers(int pageNo, int pageSize, String sortBy) {
+        if (pageSize > 0) {
+            Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+            Page<User> users = repository.findAll(paging);
+            return ResponseEntity.ok(users.stream().map(EntityToDaoHelper::userToUserDao).toList());
+        } else {
+            var users = repository.findAll();
+            return ResponseEntity.ok(users.stream().map(EntityToDaoHelper::userToUserDao).toList());
+        }
     }
 
     public ResponseEntity<String> createUser(RegisterRequest request) {

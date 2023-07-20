@@ -1,7 +1,7 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.exception.UserNotFoundException;
-import com.manpower.backendProject.models.dao.LeaveRequestDao;
+import com.manpower.backendProject.models.user.UserNotFoundException;
+import com.manpower.backendProject.models.leave.LeaveRequestDao;
 import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.leave.LeaveRequestSTATUS;
 import com.manpower.backendProject.models.user.User;

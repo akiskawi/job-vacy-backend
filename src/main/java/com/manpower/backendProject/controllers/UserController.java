@@ -1,6 +1,6 @@
 package com.manpower.backendProject.controllers;
 
-import com.manpower.backendProject.models.dao.LeaveRequestDao;
+import com.manpower.backendProject.models.leave.LeaveRequestDao;
 import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.services.UserService;
 import lombok.RequiredArgsConstructor;

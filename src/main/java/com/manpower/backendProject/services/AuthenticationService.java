@@ -1,8 +1,8 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.models.dao.AuthenticationRequest;
-import com.manpower.backendProject.models.dao.AuthenticationResponse;
-import com.manpower.backendProject.models.dao.UserDao;
+import com.manpower.backendProject.models.auth.AuthenticationRequest;
+import com.manpower.backendProject.models.auth.AuthenticationResponse;
+import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.models.token.Token;
 import com.manpower.backendProject.repositories.TokenRepository;
 import com.manpower.backendProject.models.user.User;

@@ -1,7 +1,5 @@
-package com.manpower.backendProject.models.dao;
+package com.manpower.backendProject.models.user;
 
-import com.manpower.backendProject.models.user.Role;
-import com.manpower.backendProject.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

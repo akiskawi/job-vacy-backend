@@ -1,4 +1,4 @@
-package com.manpower.backendProject.models.dao;
+package com.manpower.backendProject.models.leave;
 
 import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import lombok.AllArgsConstructor;

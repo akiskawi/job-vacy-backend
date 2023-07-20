@@ -1,8 +1,8 @@
 package com.manpower.backendProject.controllers;
 
-import com.manpower.backendProject.models.dao.CreateTeamDao;
-import com.manpower.backendProject.models.dao.RegisterRequest;
-import com.manpower.backendProject.models.dao.UpdateUser;
+import com.manpower.backendProject.models.team.CreateTeamDao;
+import com.manpower.backendProject.models.auth.RegisterRequest;
+import com.manpower.backendProject.models.user.UpdateUser;
 import com.manpower.backendProject.services.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,15 @@ public class AdminController {
 
     /**
      *
-     * @return A list of all the users
+     * @return A list of all the users for this page.
      */
     @GetMapping("users")
-    public ResponseEntity<Object> getAllUsers() {
-        return service.getUsers();
+    public ResponseEntity<Object> getAllUsers(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "0") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return service.getUsers(pageNo, pageSize, sortBy);
     }
 
     /**

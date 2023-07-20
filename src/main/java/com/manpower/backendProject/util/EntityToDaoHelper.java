@@ -1,6 +1,6 @@
 package com.manpower.backendProject.util;
 
-import com.manpower.backendProject.models.dao.UserDao;
+import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.models.user.User;
 
 public class EntityToDaoHelper {

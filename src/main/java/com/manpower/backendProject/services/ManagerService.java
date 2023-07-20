@@ -1,7 +1,7 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.models.dao.TeamDao;
-import com.manpower.backendProject.models.dao.UserDao;
+import com.manpower.backendProject.models.team.TeamDao;
+import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.EntityToDaoHelper;
 import lombok.RequiredArgsConstructor;

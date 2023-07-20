@@ -1,6 +1,6 @@
-package com.manpower.backendProject.models.dao;
+package com.manpower.backendProject.models.auth;
 
-import com.manpower.backendProject.models.dao.UserDao;
+import com.manpower.backendProject.models.user.UserDao;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

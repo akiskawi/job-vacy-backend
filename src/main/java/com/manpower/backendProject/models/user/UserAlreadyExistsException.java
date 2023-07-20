@@ -1,4 +1,4 @@
-package com.manpower.backendProject.exception;
+package com.manpower.backendProject.models.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
