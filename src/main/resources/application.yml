@@ -12,3 +12,25 @@ server:
     include-stacktrace: never
     include-exception: false
 
+spring:
+  datasource:
+    url: jdbc:h2:file:/data/demo
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console.enabled: true
+
+spring-doc:
+  swagger-ui:
+    path: /endpoints
+    defaultModelsExpandDepth: -1
+
+swag:
+  openapi:
+    dev-url: http://localhost:4000
+    prod-url: https://manpowergroup.com
+

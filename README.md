@@ -9,6 +9,8 @@ E/R Diagram: [ER_diagram.svg](/docs/ER_Diagram.svg)
 
 Frontend Repository: [frontend repo](https://github.com/StavrosSpil/job-vacy-frontend)
 
+After running the API, documentation for the endpoints can be found at `localhost:4000/endpoints`
+
 ### How to Install
 
 - Download and Install [docker](https://www.docker.com/products/docker-desktop/)

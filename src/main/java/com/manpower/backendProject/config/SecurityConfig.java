@@ -16,6 +16,9 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest.*;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -38,15 +41,19 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
 
-                .requestMatchers("/api/v1/auth/login", "/test/**").permitAll()
-                .requestMatchers("/api/v1/auth/**", "/test/**").permitAll()
+                .requestMatchers("/api/v1/auth/login",
+                        "/test",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs").permitAll()
+                .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                 .requestMatchers("api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("api/v1/manager/**").hasRole("MANAGER")
                 .requestMatchers("api/v1/user/**").hasRole("USER")
 
 
-                .anyRequest()
-                .authenticated()
+                .anyRequest().permitAll()
+//                .authenticated()
                 .and()
 
                 .exceptionHandling()

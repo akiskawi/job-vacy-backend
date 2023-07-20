@@ -4,11 +4,18 @@ import com.manpower.backendProject.models.team.CreateTeamDao;
 import com.manpower.backendProject.models.auth.RegisterRequest;
 import com.manpower.backendProject.models.user.UpdateUser;
 import com.manpower.backendProject.services.AdminService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Administrator Access", description="Endpoints available only to admin role")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/admin/")
@@ -34,6 +41,13 @@ public class AdminController {
      * @param request = info about a new user
      * @return Success message
      */
+    @Operation(
+            summary = "Create a new user",
+            description = "Create a new user bla bla bla bla.",
+            tags = { "admin", "users", "create" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = AdminController.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "403", content = { @Content(schema = @Schema()) }) })
     @PostMapping("users")
     @ResponseBody
     public ResponseEntity<String> createUser(@Valid @RequestBody RegisterRequest request) {
