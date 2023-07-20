@@ -1,6 +1,5 @@
 package com.manpower.backendProject.util;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.user.Role;
 import com.manpower.backendProject.models.user.User;
