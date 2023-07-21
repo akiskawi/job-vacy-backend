@@ -30,6 +30,19 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
+    private static final String[] ADMIN_ALLOWED_PATHS = {"api/v1/admin/**"};
+    private static final String[] MANAGER_ALLOWED_PATHS = {"api/v1/manager/**"};
+    private static final String[] USER_ALLOWED_PATHS = {"api/v1/admin/**"};
+
+    private static final String[] WHITELIST = {
+            "/api/v1/auth/login",
+            "/test/**",
+            "/endpoints",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,21 +52,18 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic()
                 .disable()
+                .headers().frameOptions().disable()
+                .and()
                 .authorizeHttpRequests()
 
-                .requestMatchers("/api/v1/auth/login",
-                        "/test",
-                        "/swagger-ui.html",
-                        "/swagger-ui/**",
-                        "/v3/api-docs").permitAll()
+                .requestMatchers(WHITELIST).permitAll()
                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-                .requestMatchers("api/v1/admin/**").hasRole("ADMIN")
-                .requestMatchers("api/v1/manager/**").hasRole("MANAGER")
-                .requestMatchers("api/v1/user/**").hasRole("USER")
+                .requestMatchers(ADMIN_ALLOWED_PATHS).hasRole("ADMIN")
+                .requestMatchers(MANAGER_ALLOWED_PATHS).hasRole("MANAGER")
+                .requestMatchers(USER_ALLOWED_PATHS).hasRole("USER")
 
-
-                .anyRequest().permitAll()
-//                .authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
 
                 .exceptionHandling()
@@ -86,6 +96,4 @@ public class SecurityConfig {
             }
         };
     }
-
-
 }
