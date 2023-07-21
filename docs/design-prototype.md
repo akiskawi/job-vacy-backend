@@ -48,10 +48,6 @@
 - revoked (boolean)
 - user_id
 
-### To Consider
-
-leave_request_available_days.taken Χρειάζεται να αποθηκεύεται η καλύτερα να υπολογίζεται?
-
 ### ER Diagram
 
 ![](/docs/ER_Diagram.svg)

@@ -29,8 +29,7 @@ public class GlobalExceptionHandler {
         Map<String, String> response = new HashMap<>();
         response.put("message", ex.getMessage());
         return response;
-        // TODO: etsi emfanizetai se morfi: { "message": "User already exists." }. Isws einai kalutera gia to
-        //  frontend. Ti pisteueis? Episiws pithanos na iparxei kapoio tetoio structure kai exw kollisei.
+        // TODO: decide on response style
         //return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
