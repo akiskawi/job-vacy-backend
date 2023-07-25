@@ -60,7 +60,7 @@ public class AdminService {
         return ResponseEntity.ok("User created successfully.");
     }
 
-    public ResponseEntity<String> updateUser(int id, UpdateUser request) {
+    public ResponseEntity<String> updateUser(long id, UpdateUser request) {
         var user = getSingleUser(id);
         if (request.getFirstname() != null) user.setFirstname(request.getFirstname());
         if (request.getLastname() != null) user.setLastname(request.getLastname());
@@ -70,21 +70,21 @@ public class AdminService {
         return ResponseEntity.ok("User updated successfully.");
     }
 
-    public ResponseEntity<String> deActiveAccount(int id) {
+    public ResponseEntity<String> deActiveAccount(long id) {
         var user = getSingleUser(id);
         user.setEnabled(false);
         repository.save(user);
         return ResponseEntity.ok("User deactivated successfully.");
     }
 
-    public ResponseEntity<String> activeAccount(int id) {
+    public ResponseEntity<String> activeAccount(long id) {
         var user = getSingleUser(id);
         user.setEnabled(true);
         repository.save(user);
         return ResponseEntity.ok("User activated successfully.");
     }
 
-    public User getSingleUser(int id) {
+    public User getSingleUser(long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
     }
@@ -101,7 +101,7 @@ public class AdminService {
         return ResponseEntity.ok("Team created!");
     }
 
-    public ResponseEntity<String> updateTeamWithManagerAndMembers(int id, CreateTeamDao createTeamDao) {
+    public ResponseEntity<String> updateTeamWithManagerAndMembers(long id, CreateTeamDao createTeamDao) {
         Team team = findTeamById(id);
         User manager = repository.findById(createTeamDao.getManagerId()).orElseThrow(() -> new UserNotFoundException("Manager not found."));
         List<User> members = createTeamDao.getMembersId().stream().map(userId -> repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Manager not found."))).toList();
@@ -111,13 +111,13 @@ public class AdminService {
         return ResponseEntity.ok("Updated Team successfully.");
     }
 
-    public ResponseEntity<String> deleteTeamById(int id) {
+    public ResponseEntity<String> deleteTeamById(long id) {
         Team team = findTeamById(id);
         teamRepository.delete(team);
         return ResponseEntity.ok("Deleted Team successfully.");
     }
 
-    private Team findTeamById(int teamId) {
+    private Team findTeamById(long teamId) {
         return teamRepository.findById(teamId).orElseThrow(() -> new TeamNotFoundException("Team not found!")); //throw something
     }
 

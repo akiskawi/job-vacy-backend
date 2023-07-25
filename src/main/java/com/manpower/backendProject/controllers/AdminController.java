@@ -41,13 +41,6 @@ public class AdminController {
      * @param request = info about a new user
      * @return Success message
      */
-    @Operation(
-            summary = "Create a new user",
-            description = "Create a new user bla bla bla bla.",
-            tags = { "admin", "users", "create" })
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = AdminController.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "403", content = { @Content(schema = @Schema()) }) })
     @PostMapping("users")
     @ResponseBody
     public ResponseEntity<String> createUser(@Valid @RequestBody RegisterRequest request) {
@@ -61,7 +54,7 @@ public class AdminController {
      * @return Success message
      */
     @PutMapping("users/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UpdateUser request) {
+    public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody UpdateUser request) {
         return service.updateUser(id, request);
     }
 
@@ -72,7 +65,7 @@ public class AdminController {
      * @return Success message
      */
     @DeleteMapping("users/{id}")
-    public ResponseEntity<String> DeActivateUser(@PathVariable int id) {
+    public ResponseEntity<String> DeActivateUser(@PathVariable long id) {
         return service.deActiveAccount(id);
     }
 
@@ -82,7 +75,7 @@ public class AdminController {
      * @return Success message
      */
     @PostMapping("users/{id}")
-    public ResponseEntity<String> activateUser(@PathVariable int id) {
+    public ResponseEntity<String> activateUser(@PathVariable long id) {
         return service.activeAccount(id);
     }
 
@@ -103,7 +96,7 @@ public class AdminController {
      * @return Success message
      */
     @PutMapping("team/{id}")
-    public ResponseEntity<String> updateTeamWithManagerAndMembers(@PathVariable int id,@RequestBody CreateTeamDao createTeamDao) {
+    public ResponseEntity<String> updateTeamWithManagerAndMembers(@PathVariable long id,@RequestBody CreateTeamDao createTeamDao) {
         return service.updateTeamWithManagerAndMembers(id,createTeamDao);
     }
 
@@ -113,7 +106,7 @@ public class AdminController {
      * @return Success message
      */
     @DeleteMapping("team/{id}")
-    public ResponseEntity<String> deleteTeam(@PathVariable int id){
+    public ResponseEntity<String> deleteTeam(@PathVariable long id){
         return service.deleteTeamById(id);
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamDao {
-    private int id;
+    private long id;
     private UserDao manager;
     private List<UserDao> members;
 }

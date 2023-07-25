@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class LeaveRequest extends Timestamped {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     @Enumerated(EnumType.STRING)
     private LeaveRequestTYPE type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")

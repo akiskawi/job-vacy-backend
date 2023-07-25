@@ -19,7 +19,7 @@ import java.util.List;
 public class Team {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     @OneToOne
     @JsonIgnoreProperties({"teamManager", "team"})
     @JoinColumn(name = "manager_id", referencedColumnName = "id")

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDao {
-    private int id;
+    private long id;
     private String firstname;
     private String lastname;
     private String email;

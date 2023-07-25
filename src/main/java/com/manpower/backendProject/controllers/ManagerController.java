@@ -15,12 +15,12 @@ public class ManagerController {
 
     private final ManagerService service;
     @GetMapping("users")
-    public ResponseEntity<Object> getTeamMembers(@RequestBody Integer team_id){
+    public ResponseEntity<Object> getTeamMembers(@RequestBody long team_id){
         return service.getTeamMembers(team_id);
     }
 
     @GetMapping("test")
-    public ResponseEntity<String> test(@RequestBody Integer test){
+    public ResponseEntity<String> test(@RequestBody long test){
         return ResponseEntity.ok("test: " + test);
     }
 }

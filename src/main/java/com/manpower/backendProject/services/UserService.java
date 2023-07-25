@@ -17,13 +17,13 @@ public class UserService {
     private final LeaveRequestRepository leaveRequestRepository;
     private final UserRepository userRepository;
 
-    public ResponseEntity<Object> getUsersLeaveRequests(int id) {
+    public ResponseEntity<Object> getUsersLeaveRequests(long id) {
         findUserByIdOrElseThrow(id);
         var leaveRequests = leaveRequestRepository.findAllByRequestsUserId(id);
         return ResponseEntity.ok(leaveRequests);
     }
 
-    public ResponseEntity<String> createLeaveRequest(int id, LeaveRequestDao request) {
+    public ResponseEntity<String> createLeaveRequest(long id, LeaveRequestDao request) {
         var user = findUserByIdOrElseThrow(id);
         var leaveRequest = LeaveRequest.builder()
                 .type(request.getType())
@@ -36,14 +36,14 @@ public class UserService {
         return ResponseEntity.ok("Leave Request was submitted.");
     }
 
-    public ResponseEntity<LeaveRequest> getLeaveRequestById(int user_id, int requestId) {
+    public ResponseEntity<LeaveRequest> getLeaveRequestById(long user_id, long requestId) {
         var user = findUserByIdOrElseThrow(user_id);
         var leaveRequest = leaveRequestRepository.findOneByIdAndRequestsUser_Id(requestId, user_id);
         if (leaveRequest == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(leaveRequest);
     }
 
-    private User findUserByIdOrElseThrow(int id) {
+    private User findUserByIdOrElseThrow(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
     }

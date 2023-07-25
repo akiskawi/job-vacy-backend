@@ -10,6 +10,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class CreateTeamDao {
-    private int managerId;
-    private List<Integer> membersId;
+    private long managerId;
+    private List<Long> membersId;
 }

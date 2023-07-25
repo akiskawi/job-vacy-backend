@@ -1,5 +1,6 @@
-package com.manpower.backendProject.models.leave;
+package com.manpower.backendProject.models.leave_availability;
 
+import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,12 +20,12 @@ import lombok.NoArgsConstructor;
 public class LeaveRequestAvailableDays {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User usersLeaveRequestsRemainingDays;
-    private int taken;
-    private int remaining;
+    private short taken;
+    private short remaining;
     @Enumerated(EnumType.STRING)
     private LeaveRequestTYPE type;
 }

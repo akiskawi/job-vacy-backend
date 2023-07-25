@@ -15,7 +15,7 @@ import java.util.List;
 public class ManagerService {
 
     private final UserRepository repository;
-    public ResponseEntity<Object> getTeamMembers(Integer team_id) {
+    public ResponseEntity<Object> getTeamMembers(Long team_id) {
         var manager = repository.findByTeamManagerId(team_id);
         var users = repository.findUsersByTeam_Id(team_id);
         UserDao managerDao = null;

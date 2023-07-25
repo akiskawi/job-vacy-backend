@@ -1,7 +1,7 @@
 package com.manpower.backendProject.models.user;
 
 import com.manpower.backendProject.models.Timestamped;
-import com.manpower.backendProject.models.leave.LeaveRequestAvailableDays;
+import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDays;
 import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.token.Token;
@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 public class User extends Timestamped implements UserDetails {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     private String firstname;
     private String lastname;
     @Column(unique = true, nullable = false)
