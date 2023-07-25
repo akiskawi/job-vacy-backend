@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
-public class Test {
+public class NotSecureController {
     @GetMapping
     public String s(){
-        return "s";
+        return "Rest API working";
     }
 }
