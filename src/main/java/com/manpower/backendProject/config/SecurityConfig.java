@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     private static final String[] ADMIN_ALLOWED_PATHS = {"api/v1/admin/**"};
     private static final String[] MANAGER_ALLOWED_PATHS = {"api/v1/manager/**"};
-    private static final String[] USER_ALLOWED_PATHS = {"api/v1/admin/**"};
+    private static final String[] USER_ALLOWED_PATHS = {"api/v1/user/**"};
 
     private static final String[] WHITELIST = {
             "/api/v1/auth/login",
@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic()
                 .disable()
-                .headers().frameOptions().disable()
+                .headers().frameOptions().disable()// TODO: dangerous for security, needed for h2-console
                 .and()
                 .authorizeHttpRequests()
 

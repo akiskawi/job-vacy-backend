@@ -31,12 +31,12 @@ public class SmokeTests {
                                 @Autowired AuthenticationController authenticationController,
                                 @Autowired ManagerController managerController,
                                 @Autowired UserController userController,
-                                @Autowired SecureController secureController) {
+                                @Autowired TestController testController) {
         assertThat(adminController).isNotNull();
         assertThat(authenticationController).isNotNull();
         assertThat(managerController).isNotNull();
         assertThat(userController).isNotNull();
-        assertThat(secureController).isNotNull();
+        assertThat(testController).isNotNull();
     }
 
     @Test
