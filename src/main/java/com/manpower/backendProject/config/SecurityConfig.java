@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic()
                 .disable()
-                .headers().frameOptions().disable()
+                .headers().frameOptions().disable()// TODO: dangerous for security, needed for h2-console
                 .and()
                 .authorizeHttpRequests()
 
