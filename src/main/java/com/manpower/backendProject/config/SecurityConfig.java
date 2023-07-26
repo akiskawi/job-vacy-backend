@@ -1,5 +1,6 @@
 package com.manpower.backendProject.config;
 
+import com.manpower.backendProject.util.LoggedUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ public class SecurityConfig {
 
     private static final String[] ADMIN_ALLOWED_PATHS = {"api/v1/admin/**"};
     private static final String[] MANAGER_ALLOWED_PATHS = {"api/v1/manager/**"};
-    private static final String[] USER_ALLOWED_PATHS = {"api/v1/admin/**"};
+    private static final String[] USER_ALLOWED_PATHS = {"api/v1/user/**"};
 
     private static final String[] WHITELIST = {
             "/api/v1/auth/login",
@@ -75,8 +76,10 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/api/v1/auth/logout")
                 .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler(((request, response, authentication) ->
-                        SecurityContextHolder.clearContext()));
+                .logoutSuccessHandler(((request, response, authentication) -> {
+                    SecurityContextHolder.clearContext();
+                }
+                ));
 
         return http.build();
     }

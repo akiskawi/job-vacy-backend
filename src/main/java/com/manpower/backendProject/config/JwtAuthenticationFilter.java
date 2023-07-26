@@ -1,7 +1,9 @@
 package com.manpower.backendProject.config;
 
+import com.manpower.backendProject.models.user.User;
 import com.manpower.backendProject.repositories.TokenRepository;
 import com.manpower.backendProject.services.JwtService;
+import com.manpower.backendProject.util.LoggedUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }

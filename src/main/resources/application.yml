@@ -34,3 +34,8 @@ swag:
     dev-url: http://localhost:4000
     prod-url: https://manpowergroup.com
 
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE

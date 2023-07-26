@@ -19,4 +19,15 @@ public class LeaveRequestDao {
     private LocalDate startDate;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate endDate;
+    private LeaveRequestSTATUS status;
+
+    public static LeaveRequestDao LeaveRequestDaoConverter(LeaveRequest leaveRequest){
+        return LeaveRequestDao
+                .builder()
+                .type(leaveRequest.getType())
+                .startDate(leaveRequest.getStartDate())
+                .endDate(leaveRequest.getEndDate())
+                .status(leaveRequest.getStatus())
+                .build();
+    }
 }

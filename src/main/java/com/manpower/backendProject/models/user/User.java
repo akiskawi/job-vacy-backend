@@ -1,5 +1,6 @@
 package com.manpower.backendProject.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manpower.backendProject.models.Timestamped;
 import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDays;
 import com.manpower.backendProject.models.leave.LeaveRequest;
@@ -17,11 +18,12 @@ import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Data
+@Data()
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Table(name = "_user")
+@ToString(exclude = {"tokens","requests","team","remainingDays"})
 public class User extends Timestamped implements UserDetails {
     @Id
     @GeneratedValue

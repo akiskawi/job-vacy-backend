@@ -1,6 +1,7 @@
 package com.manpower.backendProject.services;
 
 import com.manpower.backendProject.repositories.TokenRepository;
+import com.manpower.backendProject.util.LoggedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
