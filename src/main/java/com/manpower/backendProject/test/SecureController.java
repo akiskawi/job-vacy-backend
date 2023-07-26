@@ -1,5 +1,6 @@
 package com.manpower.backendProject.test;
 
+import com.manpower.backendProject.util.LoggedUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
