@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class LeaveRequestAvailableDaysDao {
+    private long id;
     private short taken;
     private short remaining;
     private LeaveRequestTYPE type;
@@ -21,6 +22,7 @@ public class LeaveRequestAvailableDaysDao {
     public static LeaveRequestAvailableDaysDao  leaveRequestAvailableDaysConverter(LeaveRequestAvailableDays leaveRequestAvailableDays) {
         return LeaveRequestAvailableDaysDao
                 .builder()
+                .id(leaveRequestAvailableDays.getId())
                 .type(leaveRequestAvailableDays.getType())
                 .remaining(leaveRequestAvailableDays.getRemaining())
                 .taken(leaveRequestAvailableDays.getTaken())

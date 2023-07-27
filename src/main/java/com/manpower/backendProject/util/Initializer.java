@@ -57,7 +57,7 @@ public class Initializer implements CommandLineRunner {
                 .email("manager@email.com")
                 .password(passwordEncoder.encode("1234"))
                 .roles(List.of(Role.MANAGER))
-                .team(team)
+//                .team(team)
                 .enabled(true)
                 .build();
 
@@ -106,7 +106,7 @@ public class Initializer implements CommandLineRunner {
                 .build();
         availableDaysRepository.save(availableDays);
         team.setManager(managerDB);
-//        team.setMembers(List.of(stavrosDB, akisDB));
+        team.setMembers(List.of(stavrosDB, akisDB));
         teamRepository.save(team);
     }
 }

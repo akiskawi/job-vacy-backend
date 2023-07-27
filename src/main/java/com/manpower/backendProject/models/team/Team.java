@@ -3,10 +3,7 @@ package com.manpower.backendProject.models.team;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -23,8 +20,10 @@ public class Team {
     @OneToOne
     @JsonIgnoreProperties({"teamManager", "team"})
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
+    @ToString.Exclude
     private User manager;
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"teamManager", "team"})
+    @ToString.Exclude
     private List<User> members;
 }

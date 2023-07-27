@@ -1,9 +1,8 @@
 package com.manpower.backendProject.models.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manpower.backendProject.models.Timestamped;
-import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDays;
 import com.manpower.backendProject.models.leave.LeaveRequest;
+import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDays;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.token.Token;
 import jakarta.persistence.*;
@@ -12,18 +11,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Data()
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Table(name = "_user")
-@ToString(exclude = {"tokens","requests","team","remainingDays"})
+@ToString(exclude = {"tokens", "requests", "team", "remainingDays"})
 public class User extends Timestamped implements UserDetails {
     @Id
     @GeneratedValue
@@ -37,20 +37,17 @@ public class User extends Timestamped implements UserDetails {
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
     @OneToMany(mappedBy = "requestsUser")
-    private List<LeaveRequest> requests;
+    private List<LeaveRequest> requests = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
     @OneToOne(mappedBy = "manager")
     private Team teamManager;
     @OneToMany(mappedBy = "usersLeaveRequestsRemainingDays")
-    private List<LeaveRequestAvailableDays> remainingDays;
+    private List<LeaveRequestAvailableDays> remainingDays = new ArrayList<>();
     private boolean enabled;
     @OneToMany(mappedBy = "tokensUser")
-    private List<Token> tokens;
-
-
-
+    private List<Token> tokens = new ArrayList<>();
 
 
     @Override

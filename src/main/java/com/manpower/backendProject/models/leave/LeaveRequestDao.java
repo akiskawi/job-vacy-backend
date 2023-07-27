@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeaveRequestDao {
+    private long id;
     private LeaveRequestTYPE type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate startDate;
@@ -24,6 +25,7 @@ public class LeaveRequestDao {
     public static LeaveRequestDao LeaveRequestDaoConverter(LeaveRequest leaveRequest){
         return LeaveRequestDao
                 .builder()
+                .id(leaveRequest.getId())
                 .type(leaveRequest.getType())
                 .startDate(leaveRequest.getStartDate())
                 .endDate(leaveRequest.getEndDate())
