@@ -2,6 +2,7 @@ package com.manpower.backendProject;
 
 import com.manpower.backendProject.config.*;
 import com.manpower.backendProject.controllers.*;
+import com.manpower.backendProject.controllers.admin.AdminController;
 import com.manpower.backendProject.exception.*;
 import com.manpower.backendProject.services.*;
 import com.manpower.backendProject.test.*;
