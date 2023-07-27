@@ -1,4 +1,4 @@
-package com.manpower.backendProject;
+package com.manpower.backendProject.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

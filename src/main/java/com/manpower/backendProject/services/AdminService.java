@@ -16,10 +16,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 import static java.util.Arrays.stream;
@@ -44,7 +47,7 @@ public class AdminService {
         }
     }
 
-    public ResponseEntity<String> createUser(RegisterRequest request) {
+    public ResponseEntity<Void> createUser(RegisterRequest request) {
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -56,25 +59,27 @@ public class AdminService {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException("User already exists.");
         }
-        repository.save(user);
-        return ResponseEntity.ok("User created successfully.");
+        User createdUser = repository.save(user);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(createdUser.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
-    public ResponseEntity<String> updateUser(long id, UpdateUser request) {
+    public ResponseEntity<Void> updateUser(long id, UpdateUser request) {
         var user = getSingleUser(id);
         if (request.getFirstname() != null) user.setFirstname(request.getFirstname());
         if (request.getLastname() != null) user.setLastname(request.getLastname());
         if (request.getPassword() != null) user.setPassword(request.getPassword());
         if (request.getRoles() != null) user.setRoles(request.getRoles());
         repository.save(user);
-        return ResponseEntity.ok("User updated successfully.");
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public ResponseEntity<String> deActiveAccount(long id) {
+    public ResponseEntity<Void> deActiveAccount(long id) {
         var user = getSingleUser(id);
         user.setEnabled(false);
         repository.save(user);
-        return ResponseEntity.ok("User deactivated successfully.");
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<String> activeAccount(long id) {

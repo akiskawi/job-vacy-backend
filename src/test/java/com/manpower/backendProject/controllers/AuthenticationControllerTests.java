@@ -1,4 +1,4 @@
-package com.manpower.backendProject;
+package com.manpower.backendProject.controllers;
 
 import com.manpower.backendProject.models.auth.AuthenticationRequest;
 import com.manpower.backendProject.models.auth.AuthenticationResponse;
@@ -50,7 +50,7 @@ public class AuthenticationControllerTests {
     public void givenBlankPassword_WhenLogin_Should_Status400() throws Exception {
         mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\": \"user.test@email.com\", \"password\": \"\"}"))
+                        .content("{\"email\": \"user.mock@email.com\", \"password\": \"\"}"))
                 .andExpect(status().isBadRequest())
                 .andDo(MockMvcResultHandlers.print());
     }

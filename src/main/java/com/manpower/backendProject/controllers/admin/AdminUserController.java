@@ -6,6 +6,7 @@ import com.manpower.backendProject.services.AdminService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class AdminUserController{
      *
      * @return A list of all the users for this page.
      */
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<Object> getAllUsers(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "0") Integer pageSize,
@@ -34,9 +35,10 @@ public class AdminUserController{
      * @param request = info about a new user
      * @return Success message
      */
-    @PostMapping("/")
+    @PostMapping
     @ResponseBody
-    public ResponseEntity<String> createUser(@Valid @RequestBody RegisterRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> createUser(@Valid @RequestBody RegisterRequest request) {
         return service.createUser(request);
     }
 
@@ -47,7 +49,7 @@ public class AdminUserController{
      * @return Success message
      */
     @PutMapping("{id}")
-    public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody UpdateUser request) {
+    public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UpdateUser request) {
         return service.updateUser(id, request);
     }
 
@@ -57,7 +59,7 @@ public class AdminUserController{
      * @return Success message
      */
     @DeleteMapping("{id}")
-    public ResponseEntity<String> DeActivateUser(@PathVariable long id) {
+    public ResponseEntity<Void> DeActivateUser(@PathVariable long id) {
         return service.deActiveAccount(id);
     }
 
