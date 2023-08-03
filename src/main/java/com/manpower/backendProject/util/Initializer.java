@@ -42,9 +42,21 @@ public class Initializer implements CommandLineRunner {
 
         Team team = teamRepository.save(teamInit);
 
+        for (int i=0; i<10; i++) {
+            var user = User.builder()
+                    .firstname("User"+i)
+                    .lastname("Mock")
+                    .email("user"+i+"@email.com")
+                    .password(passwordEncoder.encode("1234"))
+                    .roles(List.of(Role.USER))
+                    .enabled(true)
+                    .build();
+            userRepository.save(user);
+        }
+
         var admin = User.builder()
-                .firstname("Super")
-                .lastname("Admin")
+                .firstname("Admin")
+                .lastname("Mock")
                 .email("admin@email.com")
                 .password(passwordEncoder.encode("1234"))
                 .roles(List.of(Role.ADMIN))
@@ -52,8 +64,8 @@ public class Initializer implements CommandLineRunner {
                 .build();
 
         var manager = User.builder()
-                .firstname("Mana")
-                .lastname("Manager")
+                .firstname("Manager")
+                .lastname("Test")
                 .email("manager@email.com")
                 .password(passwordEncoder.encode("1234"))
                 .roles(List.of(Role.MANAGER))
@@ -61,31 +73,31 @@ public class Initializer implements CommandLineRunner {
                 .enabled(true)
                 .build();
 
-        var stavros = User.builder()
-                .firstname("Stavros")
-                .lastname("Spil")
-                .email("stavros@email.com")
+        var amanager = User.builder()
+                .firstname("Admin-Manager")
+                .lastname("Mock")
+                .email("amanager@email.com")
                 .password(passwordEncoder.encode("1234"))
-                .roles(List.of(Role.USER))
+                .roles(List.of(Role.ADMIN, Role.MANAGER))
                 .team(team)
                 .enabled(true)
                 .build();
 
 
-        var akis = User.builder()
-                .firstname("Akis")
-                .lastname("Pro")
-                .email("akis@email.com")
+        var auser = User.builder()
+                .firstname("Admin-User")
+                .lastname("Test")
+                .email("auser@email.com")
                 .password(passwordEncoder.encode("1234"))
-                .roles(List.of(Role.USER))
+                .roles(List.of(Role.ADMIN, Role.USER))
                 .team(team)
                 .enabled(true)
                 .build();
 
         User adminDB = userRepository.save(admin);
         User managerDB = userRepository.save(manager);
-        User stavrosDB = userRepository.save(stavros);
-        User akisDB = userRepository.save(akis);
+        User stavrosDB = userRepository.save(amanager);
+        User akisDB = userRepository.save(auser);
 
         var leave = LeaveRequest
                 .builder()

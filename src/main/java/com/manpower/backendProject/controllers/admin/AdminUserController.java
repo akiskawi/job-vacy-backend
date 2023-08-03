@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/admin/users")
 @Tag(name = "Administrator Access", description="Endpoints available only to admin role")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminUserController{
     private final AdminService service;
 
@@ -23,11 +24,11 @@ public class AdminUserController{
      */
     @GetMapping
     public ResponseEntity<Object> getAllUsers(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "0") Integer pageSize,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "50") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
     ) {
-        return service.getUsers(pageNo, pageSize, sortBy);
+        return service.getUsers(pageNo - 1, pageSize, sortBy);
     }
 
     /**

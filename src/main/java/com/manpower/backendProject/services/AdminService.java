@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.stream;
 
@@ -37,14 +39,19 @@ public class AdminService {
 
 
     public ResponseEntity<Object> getUsers(int pageNo, int pageSize, String sortBy) {
-        if (pageSize > 0) {
+        if(pageNo < 0) pageNo = 0;
+        if(pageSize < 1) pageSize = 10;
+
             Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-            Page<User> users = repository.findAll(paging);
-            return ResponseEntity.ok(users.stream().map(EntityToDaoHelper::userToUserDao).toList());
-        } else {
-            var users = repository.findAll();
-            return ResponseEntity.ok(users.stream().map(EntityToDaoHelper::userToUserDao).toList());
-        }
+            Page<User> page = repository.findAll(paging);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("content", page.getContent().stream().map(EntityToDaoHelper::userToUserDao).toList());
+            response.put("currentPage", page.getNumber() + 1);
+            response.put("pages", page.getTotalPages());
+            response.put("count", page.getTotalElements());
+
+            return ResponseEntity.ok(response);
     }
 
     public ResponseEntity<Void> createUser(RegisterRequest request) {
