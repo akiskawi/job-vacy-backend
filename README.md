@@ -40,9 +40,9 @@ After running the API, documentation for the endpoints can be found at `localhos
 
 12. **Request History**: Easily track and review past leave requests, promoting accountability and record management.
 
-## Simplified Project Architecture Diagram
+## Project Architecture Diagram
 
-[Complete Application Architecture](/docs/basic-architecture.drawio.svg)
+![Architecture Diagram](/docs/project-architecture.svg)
 
 ### Backend Architecture and Package Structure
 
