@@ -56,7 +56,7 @@ public class AdminUserControllerTests {
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void givenRoleAdmin_WhenGetUsers_ShouldReturnUsers_Status200() throws Exception {
-        given(this.service.getUsers(0, 0, "id"))
+        given(this.service.getUsers(1, 1, "id"))
                 .willReturn(
                         ResponseEntity.ok().body(List.of(CustomMocks.mockUser()))
                 );

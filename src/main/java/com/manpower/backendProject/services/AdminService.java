@@ -37,7 +37,6 @@ public class AdminService {
     private final PasswordEncoder passwordEncoder;
     private final LeaveRequestRepository leaveRequestRepository;
 
-
     public ResponseEntity<Object> getUsers(int pageNo, int pageSize, String sortBy) {
         if(pageNo < 0) pageNo = 0;
         if(pageSize < 1) pageSize = 10;
