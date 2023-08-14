@@ -105,7 +105,7 @@ public class Initializer implements CommandLineRunner {
                 .endDate(LocalDate.of(2023, 2, 10))
                 .type(LeaveRequestTYPE.KANONIKI)
                 .status(LeaveRequestSTATUS.PENDING)
-                .requestsUser(auserDB)
+                .user(auserDB)
                 .build();
         requestRepository.save(leave);
 
@@ -114,7 +114,7 @@ public class Initializer implements CommandLineRunner {
                 .type(LeaveRequestTYPE.KANONIKI)
                 .remaining((short) 20)
                 .taken((short) 10)
-                .usersLeaveRequestsRemainingDays(auserDB)
+                .user(auserDB)
                 .build();
         availableDaysRepository.save(availableDays);
         team.setManager(managerDB);

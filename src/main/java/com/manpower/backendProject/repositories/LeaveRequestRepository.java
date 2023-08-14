@@ -10,10 +10,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface LeaveRequestRepository extends JpaRepository<LeaveRequest,Long> {
-
-    Page<LeaveRequest> findByRequestsUser(User requestsUser, Pageable pageable);
-//    Page<LeaveRequest> findByUser_Id(long user_id, Pageable pageable);
-    List<LeaveRequest> findAllByRequestsUserId(long requestsUserId);
-
-    LeaveRequest findOneByIdAndRequestsUser_Id(long id, long requestsUserId);
+    Page<LeaveRequest> findByUser(User user, Pageable pageable);
 }

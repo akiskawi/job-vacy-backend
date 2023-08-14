@@ -36,17 +36,17 @@ public class User extends Timestamped implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
-    @OneToMany(mappedBy = "requestsUser")
+    @OneToMany(mappedBy = "user")
     private List<LeaveRequest> requests = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
     @OneToOne(mappedBy = "manager")
     private Team teamManager;
-    @OneToMany(mappedBy = "usersLeaveRequestsRemainingDays")
+    @OneToMany(mappedBy = "user")
     private List<LeaveRequestAvailableDays> remainingDays = new ArrayList<>();
     private boolean enabled;
-    @OneToMany(mappedBy = "tokensUser")
+    @OneToMany(mappedBy = "user")
     private List<Token> tokens = new ArrayList<>();
 
 

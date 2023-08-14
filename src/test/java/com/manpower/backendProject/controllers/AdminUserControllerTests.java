@@ -56,7 +56,7 @@ public class AdminUserControllerTests {
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void givenRoleAdmin_WhenGetUsers_ShouldReturnUsers_Status200() throws Exception {
-        given(this.service.getUsers(1, 1, "id"))
+        given(this.service.getUsers(0, 10, "id"))
                 .willReturn(
                         ResponseEntity.ok().body(List.of(CustomMocks.mockUser()))
                 );
@@ -144,7 +144,7 @@ public class AdminUserControllerTests {
     @Test
     @WithMockUser(roles = {"USER", "MANAGER"})
     @DirtiesContext
-    public void whenUserOrManagerDeactivateUser_Should_Status200() throws Exception {
+    public void whenUserOrManagerDeactivateUser_Should_Status403() throws Exception {
         this.mockMvc.perform(delete("/api/v1/admin/users/1"))
                 .andExpect(status().isForbidden());
     }
@@ -160,7 +160,7 @@ public class AdminUserControllerTests {
     @Test
     @WithMockUser(roles = {"USER", "MANAGER"})
     @DirtiesContext
-    public void whenUserOrManagerActivateUser_Should_Status200() throws Exception {
+    public void whenUserOrManagerActivateUser_Should_Status403() throws Exception {
         this.mockMvc.perform(delete("/api/v1/admin/users/1"))
                 .andExpect(status().isForbidden());
     }

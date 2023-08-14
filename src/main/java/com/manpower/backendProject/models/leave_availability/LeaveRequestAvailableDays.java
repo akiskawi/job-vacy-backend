@@ -23,7 +23,7 @@ public class LeaveRequestAvailableDays {
     private long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User usersLeaveRequestsRemainingDays;
+    private User user;
     private short taken;
     private short remaining;
     @Enumerated(EnumType.STRING)

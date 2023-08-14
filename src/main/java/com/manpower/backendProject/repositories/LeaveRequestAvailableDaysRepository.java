@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface LeaveRequestAvailableDaysRepository extends JpaRepository<LeaveRequestAvailableDays,Long> {
-    List<LeaveRequestAvailableDays> findByUsersLeaveRequestsRemainingDays(User user);
+    List<LeaveRequestAvailableDays> findByUser(User user);
 
-    List<LeaveRequestAvailableDays> findByUsersLeaveRequestsRemainingDaysAndType(User user, LeaveRequestTYPE type);
+    List<LeaveRequestAvailableDays> findByUserAndType(User user, LeaveRequestTYPE type);
 
 
 }

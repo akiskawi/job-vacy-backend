@@ -40,7 +40,7 @@ public class UserService {
         if(pageSize < 1) pageSize = 10;
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<LeaveRequest> page = leaveRequestRepository.findByRequestsUser(findLoggedUser(), paging);
+        Page<LeaveRequest> page = leaveRequestRepository.findByUser(findLoggedUser(), paging);
 
         Map<String, Object> response = new HashMap<>();
         response.put("content", page.getContent().stream().map(LeaveRequestDao::LeaveRequestDaoConverter).toList());
@@ -97,7 +97,7 @@ public class UserService {
     public ResponseEntity<String> createRequest(LeaveRequestDao request) {
         LeaveRequest leaveRequest = LeaveRequest
                 .builder()
-                .requestsUser(findLoggedUser())
+                .user(findLoggedUser())
                 .type(request.getType())
                 .status(LeaveRequestSTATUS.PENDING)
                 .startDate(request.getStartDate())
@@ -137,7 +137,7 @@ public class UserService {
      */
     public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getRemainingLeaveDays() {
         return ResponseEntity.ok(availableDaysRepository
-                .findByUsersLeaveRequestsRemainingDays(findLoggedUser())
+                .findByUser(findLoggedUser())
                 .stream()
                 .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysConverter)
                 .toList());
@@ -149,7 +149,7 @@ public class UserService {
      */
     public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getRemainingLeaveDaysByType(LeaveRequestTYPE type) {
         return ResponseEntity.ok(availableDaysRepository
-                .findByUsersLeaveRequestsRemainingDaysAndType(findLoggedUser(), type)
+                .findByUserAndType(findLoggedUser(), type)
                 .stream()
                 .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysConverter)
                 .toList());

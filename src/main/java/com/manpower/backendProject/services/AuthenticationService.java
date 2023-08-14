@@ -58,7 +58,7 @@ public class AuthenticationService {
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
-                .tokensUser(user)
+                .user(user)
                 .token(jwtToken)
                 .revoked(false)
                 .build();
