@@ -42,19 +42,19 @@ public class ManagerService {
 
     //Dont need it?
     public ResponseEntity<TeamDao> getManagerTeam() {
-        User manager = LoggedUser.getLoggedUser();
+        User manager = LoggedUser.get();
         var team = teamRepository.findByManager(manager);
         return ResponseEntity.ok(TeamDao.buildTeamDao(team));
     }
 
     public ResponseEntity<List<UserDao>> getManagerTeamMembers() {
-        User manager = LoggedUser.getLoggedUser();
+        User manager = LoggedUser.get();
         var team = teamRepository.findByManager(manager);
         return ResponseEntity.ok(team.getMembers().stream().map(UserDao::buildUserDao).toList());
     }
 
     public ResponseEntity<List<LeaveRequestDao>> getMemberRequests(long userId) {
-        User manager = LoggedUser.getLoggedUser();
+        User manager = LoggedUser.get();
         var team = teamRepository.findByManager(manager);
         var member = team.getMembers().stream().filter(user -> user.getId() == userId).findFirst();
         if (member.isPresent()) {

@@ -15,17 +15,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/user/")
-// Mapping for the methods are subject to change when I talk to the frontend developer!
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final UserService service;
-    @GetMapping
-    public String h(){
-        return "hello";
-    }
 
     @GetMapping("requests")
-    public ResponseEntity<List<LeaveRequestDao>> getAllLeaveRequests() {
-        return service.getUserRequests();
+    public ResponseEntity<Object> getAllLeaveRequests(
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return service.getUserRequests(pageNo - 1, pageSize, sortBy);
     }
 
     @PutMapping("password")

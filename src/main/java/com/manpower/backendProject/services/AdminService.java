@@ -38,19 +38,19 @@ public class AdminService {
     private final LeaveRequestRepository leaveRequestRepository;
 
     public ResponseEntity<Object> getUsers(int pageNo, int pageSize, String sortBy) {
-        if(pageNo < 0) pageNo = 0;
-        if(pageSize < 1) pageSize = 10;
+        if (pageNo < 0) pageNo = 0;
+        if (pageSize < 1) pageSize = 10;
 
-            Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-            Page<User> page = repository.findAll(paging);
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<User> page = repository.findAll(paging);
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("content", page.getContent().stream().map(EntityToDaoHelper::userToUserDao).toList());
-            response.put("currentPage", page.getNumber() + 1);
-            response.put("pages", page.getTotalPages());
-            response.put("count", page.getTotalElements());
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", page.getContent().stream().map(EntityToDaoHelper::userToUserDao).toList());
+        response.put("currentPage", page.getNumber() + 1);
+        response.put("pages", page.getTotalPages());
+        response.put("count", page.getTotalElements());
 
-            return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
     }
 
     public ResponseEntity<Void> createUser(RegisterRequest request) {
@@ -135,15 +135,15 @@ public class AdminService {
     public ResponseEntity<Object> getTeams() {
         List<Team> teams = teamRepository.findAll();
         List<TeamDao> teamDaos = teams.stream().map(team ->
-                TeamDao.builder()
-                        .id(team.getId())
-                        .manager(UserDao.buildUserDao(team.getManager()))
-                        .members(
-                                team.getMembers().stream().map(
-                                        UserDao::buildUserDao
-                                ).toList()
-                        )
-                        .build())
+                        TeamDao.builder()
+                                .id(team.getId())
+                                .manager(UserDao.buildUserDao(team.getManager()))
+                                .members(
+                                        team.getMembers().stream().map(
+                                                UserDao::buildUserDao
+                                        ).toList()
+                                )
+                                .build())
                 .toList();
         return ResponseEntity.ok(teamDaos);
     }
@@ -152,4 +152,4 @@ public class AdminService {
         List<LeaveRequest> leaveRequests = leaveRequestRepository.findAll();
         return ResponseEntity.ok(leaveRequests);
     }
- }
+}

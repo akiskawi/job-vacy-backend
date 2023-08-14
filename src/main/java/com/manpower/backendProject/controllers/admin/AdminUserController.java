@@ -25,7 +25,7 @@ public class AdminUserController{
     @GetMapping
     public ResponseEntity<Object> getAllUsers(
             @RequestParam(defaultValue = "1") Integer pageNo,
-            @RequestParam(defaultValue = "50") Integer pageSize,
+            @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
     ) {
         return service.getUsers(pageNo - 1, pageSize, sortBy);

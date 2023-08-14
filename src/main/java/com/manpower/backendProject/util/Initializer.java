@@ -96,8 +96,8 @@ public class Initializer implements CommandLineRunner {
 
         User adminDB = userRepository.save(admin);
         User managerDB = userRepository.save(manager);
-        User stavrosDB = userRepository.save(amanager);
-        User akisDB = userRepository.save(auser);
+        User amanagerDB = userRepository.save(amanager);
+        User auserDB = userRepository.save(auser);
 
         var leave = LeaveRequest
                 .builder()
@@ -105,7 +105,7 @@ public class Initializer implements CommandLineRunner {
                 .endDate(LocalDate.of(2023, 2, 10))
                 .type(LeaveRequestTYPE.KANONIKI)
                 .status(LeaveRequestSTATUS.PENDING)
-                .requestsUser(akisDB)
+                .requestsUser(auserDB)
                 .build();
         requestRepository.save(leave);
 
@@ -114,11 +114,11 @@ public class Initializer implements CommandLineRunner {
                 .type(LeaveRequestTYPE.KANONIKI)
                 .remaining((short) 20)
                 .taken((short) 10)
-                .usersLeaveRequestsRemainingDays(akisDB)
+                .usersLeaveRequestsRemainingDays(auserDB)
                 .build();
         availableDaysRepository.save(availableDays);
         team.setManager(managerDB);
-        team.setMembers(List.of(stavrosDB, akisDB));
+        team.setMembers(List.of(amanager, auserDB));
         teamRepository.save(team);
     }
 }

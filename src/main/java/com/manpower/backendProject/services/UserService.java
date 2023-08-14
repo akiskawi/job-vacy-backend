@@ -10,13 +10,17 @@ import com.manpower.backendProject.repositories.LeaveRequestRepository;
 import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.LoggedUser;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import lombok.experimental.NonFinal;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +35,24 @@ public class UserService {
      *
      * @return List - LeaveRequestDao
      */
-    public ResponseEntity<List<LeaveRequestDao>> getUserRequests() {
-        List<LeaveRequestDao> requests = findLoggedUserById()
-                .getRequests()
-                .stream()
-                .map(LeaveRequestDao::LeaveRequestDaoConverter)
-                .toList();
-        return ResponseEntity.ok(requests);
+    public ResponseEntity<Object> getUserRequests(int pageNo, int pageSize, String sortBy) {
+        if(pageNo < 0) pageNo = 0;
+        if(pageSize < 1) pageSize = 10;
+
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<LeaveRequest> page = leaveRequestRepository.findByRequestsUser(findLoggedUser(), paging);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", page.getContent().stream().map(LeaveRequestDao::LeaveRequestDaoConverter).toList());
+        response.put("currentPage", page.getNumber() + 1);
+        response.put("pages", page.getTotalPages());
+        response.put("count", page.getTotalElements());
+//        List<LeaveRequestDao> response = findLoggedUser()
+//                .getRequests()
+//                .stream()
+//                .map(LeaveRequestDao::LeaveRequestDaoConverter)
+//                .toList();
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -48,9 +63,9 @@ public class UserService {
      */
     public ResponseEntity<String> changePassword(ResetPassword requestResetPassword) {
         String oldPassword = requestResetPassword.getOldPassword();
-        String hashOldPassword = findLoggedUserById().getPassword();
+        String hashOldPassword = findLoggedUser().getPassword();
         if (encoder.matches(oldPassword, hashOldPassword)) {
-            return resetPassword(findLoggedUserById(), requestResetPassword.getNewPassword());
+            return resetPassword(findLoggedUser(), requestResetPassword.getNewPassword());
         }
         return ResponseEntity.badRequest().body("Not the same password!");
     }
@@ -69,7 +84,7 @@ public class UserService {
     }
 
     public ResponseEntity<String> resetPassword(String newPassword) {
-        return resetPassword(findLoggedUserById(), newPassword);
+        return resetPassword(findLoggedUser(), newPassword);
     }
 
     /**
@@ -82,7 +97,7 @@ public class UserService {
     public ResponseEntity<String> createRequest(LeaveRequestDao request) {
         LeaveRequest leaveRequest = LeaveRequest
                 .builder()
-                .requestsUser(findLoggedUserById())
+                .requestsUser(findLoggedUser())
                 .type(request.getType())
                 .status(LeaveRequestSTATUS.PENDING)
                 .startDate(request.getStartDate())
@@ -122,7 +137,7 @@ public class UserService {
      */
     public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getRemainingLeaveDays() {
         return ResponseEntity.ok(availableDaysRepository
-                .findByUsersLeaveRequestsRemainingDays(findLoggedUserById())
+                .findByUsersLeaveRequestsRemainingDays(findLoggedUser())
                 .stream()
                 .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysConverter)
                 .toList());
@@ -134,13 +149,13 @@ public class UserService {
      */
     public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getRemainingLeaveDaysByType(LeaveRequestTYPE type) {
         return ResponseEntity.ok(availableDaysRepository
-                .findByUsersLeaveRequestsRemainingDaysAndType(findLoggedUserById(), type)
+                .findByUsersLeaveRequestsRemainingDaysAndType(findLoggedUser(), type)
                 .stream()
                 .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysConverter)
                 .toList());
     }
 
-    private User findLoggedUserById() {
+    private User findLoggedUser() {
         return userRepository.findById(LoggedUser.getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
     }
