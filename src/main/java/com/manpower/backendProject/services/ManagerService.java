@@ -44,13 +44,13 @@ public class ManagerService {
     public ResponseEntity<TeamDao> getManagerTeam() {
         User manager = LoggedUser.get();
         var team = teamRepository.findByManager(manager);
-        return ResponseEntity.ok(TeamDao.buildTeamDao(team));
+        return ResponseEntity.ok(TeamDao.teamDaoConverter(team));
     }
 
     public ResponseEntity<List<UserDao>> getManagerTeamMembers() {
         User manager = LoggedUser.get();
         var team = teamRepository.findByManager(manager);
-        return ResponseEntity.ok(team.getMembers().stream().map(UserDao::buildUserDao).toList());
+        return ResponseEntity.ok(team.getMembers().stream().map(UserDao::userDaoConverter).toList());
     }
 
     public ResponseEntity<List<LeaveRequestDao>> getMemberRequests(long userId) {
@@ -58,7 +58,7 @@ public class ManagerService {
         var team = teamRepository.findByManager(manager);
         var member = team.getMembers().stream().filter(user -> user.getId() == userId).findFirst();
         if (member.isPresent()) {
-            return ResponseEntity.ok(member.get().getRequests().stream().map(LeaveRequestDao::LeaveRequestDaoConverter).toList());
+            return ResponseEntity.ok(member.get().getRequests().stream().map(LeaveRequestDao::leaveRequestDaoConverter).toList());
         }
         throw new UserNotFoundException(String.format("User with id=%s is not member of your team", userId));
     }

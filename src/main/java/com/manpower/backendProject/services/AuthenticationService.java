@@ -35,7 +35,7 @@ public class AuthenticationService {
         //saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .userDao(UserDao.buildUserDao(user))
+                .userDao(UserDao.userDaoConverter(user))
                 .build();
     }
 

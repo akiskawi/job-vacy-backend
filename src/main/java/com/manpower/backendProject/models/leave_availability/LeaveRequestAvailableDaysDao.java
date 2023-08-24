@@ -1,10 +1,6 @@
 package com.manpower.backendProject.models.leave_availability;
 
-import com.manpower.backendProject.models.leave.LeaveRequestDao;
 import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
-import jakarta.annotation.security.DenyAll;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +15,7 @@ public class LeaveRequestAvailableDaysDao {
     private short remaining;
     private LeaveRequestTYPE type;
 
-    public static LeaveRequestAvailableDaysDao  leaveRequestAvailableDaysConverter(LeaveRequestAvailableDays leaveRequestAvailableDays) {
+    public static LeaveRequestAvailableDaysDao leaveRequestAvailableDaysDaoConverter(LeaveRequestAvailableDays leaveRequestAvailableDays) {
         return LeaveRequestAvailableDaysDao
                 .builder()
                 .id(leaveRequestAvailableDays.getId())

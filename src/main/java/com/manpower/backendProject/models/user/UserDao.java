@@ -20,7 +20,7 @@ public class UserDao {
     private boolean enabled;
 
 
-    public static UserDao buildUserDao(User user){
+    public static UserDao userDaoConverter(User user){
         return UserDao.builder()
                 .id(user.getId())
                 .firstname((user.getFirstname()))

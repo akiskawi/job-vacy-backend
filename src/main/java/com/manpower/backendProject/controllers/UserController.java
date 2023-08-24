@@ -5,7 +5,6 @@ import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDaysDao;
 import com.manpower.backendProject.models.user.ResetPassword;
 import com.manpower.backendProject.services.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

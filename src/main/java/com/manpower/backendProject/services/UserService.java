@@ -14,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +45,7 @@ public class UserService {
         Page<LeaveRequest> page = leaveRequestRepository.findByUser(findLoggedUser(), paging);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("content", page.getContent().stream().map(LeaveRequestDao::LeaveRequestDaoConverter).toList());
+        response.put("content", page.getContent().stream().map(LeaveRequestDao::leaveRequestDaoConverter).toList());
         response.put("currentPage", page.getNumber() + 1);
         response.put("pages", page.getTotalPages());
         response.put("count", page.getTotalElements());
@@ -71,7 +73,7 @@ public class UserService {
     }
 
     /**
-     * Reset password wHttpStatusith the new password
+     * Reset password with the new password
      *
      * @param user        User entity that you want to reset the password
      * @param newPassword String new Password
@@ -115,6 +117,9 @@ public class UserService {
      * @return String and HttpStatus 200
      */
     public ResponseEntity<String> updateRequest(long leaveRequestId, LeaveRequestDao request) {
+        if (request.getStatus() != LeaveRequestSTATUS.PENDING) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can only update pending requests.");
+        }
         LeaveRequest existingLeaveRequest = findLeaveRequestById(leaveRequestId);
         //Maybe check if null? Need to be NonNull by React
         existingLeaveRequest.setStartDate(request.getStartDate());
@@ -139,7 +144,7 @@ public class UserService {
         return ResponseEntity.ok(availableDaysRepository
                 .findByUser(findLoggedUser())
                 .stream()
-                .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysConverter)
+                .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysDaoConverter)
                 .toList());
     }
 
@@ -151,7 +156,7 @@ public class UserService {
         return ResponseEntity.ok(availableDaysRepository
                 .findByUserAndType(findLoggedUser(), type)
                 .stream()
-                .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysConverter)
+                .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysDaoConverter)
                 .toList());
     }
 

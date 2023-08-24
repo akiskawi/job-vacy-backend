@@ -1,6 +1,5 @@
 package com.manpower.backendProject.models.leave;
 
-import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +21,7 @@ public class LeaveRequestDao {
     private LocalDate endDate;
     private LeaveRequestSTATUS status;
 
-    public static LeaveRequestDao LeaveRequestDaoConverter(LeaveRequest leaveRequest){
+    public static LeaveRequestDao leaveRequestDaoConverter(LeaveRequest leaveRequest){
         return LeaveRequestDao
                 .builder()
                 .id(leaveRequest.getId())

@@ -1,4 +1,4 @@
-package com.manpower.backendProject.controllers.admin;
+package com.manpower.backendProject.controllers;
 
 import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import lombok.RequiredArgsConstructor;

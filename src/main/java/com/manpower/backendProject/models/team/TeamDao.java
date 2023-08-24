@@ -18,12 +18,12 @@ public class TeamDao {
     private List<UserDao> members;
 
 
-    public static TeamDao buildTeamDao(Team team){
+    public static TeamDao teamDaoConverter(Team team){
         return TeamDao
                 .builder()
                 .id(team.getId())
-                .manager(UserDao.buildUserDao(team.getManager()))
-                .members(team.getMembers().stream().map(UserDao::buildUserDao).toList())
+                .manager(UserDao.userDaoConverter(team.getManager()))
+                .members(team.getMembers().stream().map(UserDao::userDaoConverter).toList())
                 .build();
 
 

@@ -10,7 +10,6 @@ import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.repositories.LeaveRequestRepository;
 import com.manpower.backendProject.repositories.TeamRepository;
 import com.manpower.backendProject.repositories.UserRepository;
-import com.manpower.backendProject.util.EntityToDaoHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.stream;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +43,7 @@ public class AdminService {
         Page<User> page = repository.findAll(paging);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("content", page.getContent().stream().map(EntityToDaoHelper::userToUserDao).toList());
+        response.put("content", page.getContent().stream().map(UserDao::userDaoConverter).toList());
         response.put("currentPage", page.getNumber() + 1);
         response.put("pages", page.getTotalPages());
         response.put("count", page.getTotalElements());
@@ -101,8 +99,10 @@ public class AdminService {
     }
 
     public ResponseEntity<String> createTeamWithManagerAndMembers(CreateTeamDao createTeamDao) {
-        User manager = repository.findById(createTeamDao.getManagerId()).orElseThrow(() -> new UserNotFoundException("Manager not found."));
-        List<User> members = createTeamDao.getMembersId().stream().map(id -> repository.findById(id).orElseThrow(() -> new UserNotFoundException("Manager not found."))).toList();
+        User manager = repository.findById(createTeamDao.getManagerId()).
+                orElseThrow(() -> new UserNotFoundException("Manager not found."));
+        List<User> members = createTeamDao.getMembersId().stream().map(id -> repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Manager not found."))).toList();
         Team team = Team
                 .builder()
                 .manager(manager)
@@ -114,8 +114,10 @@ public class AdminService {
 
     public ResponseEntity<String> updateTeamWithManagerAndMembers(long id, CreateTeamDao createTeamDao) {
         Team team = findTeamById(id);
-        User manager = repository.findById(createTeamDao.getManagerId()).orElseThrow(() -> new UserNotFoundException("Manager not found."));
-        List<User> members = createTeamDao.getMembersId().stream().map(userId -> repository.findById(userId).orElseThrow(() -> new UserNotFoundException("Manager not found."))).toList();
+        User manager = repository.findById(createTeamDao.getManagerId())
+                .orElseThrow(() -> new UserNotFoundException("Manager not found."));
+        List<User> members = createTeamDao.getMembersId().stream().map(userId -> repository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Manager not found."))).toList();
         team.setManager(manager);
         team.setMembers(members);
         teamRepository.save(team);
@@ -129,7 +131,8 @@ public class AdminService {
     }
 
     private Team findTeamById(long teamId) {
-        return teamRepository.findById(teamId).orElseThrow(() -> new TeamNotFoundException("Team not found!")); //throw something
+        return teamRepository.findById(teamId)
+                .orElseThrow(() -> new TeamNotFoundException("Team not found!"));
     }
 
     public ResponseEntity<Object> getTeams() {
@@ -137,10 +140,10 @@ public class AdminService {
         List<TeamDao> teamDaos = teams.stream().map(team ->
                         TeamDao.builder()
                                 .id(team.getId())
-                                .manager(UserDao.buildUserDao(team.getManager()))
+                                .manager(UserDao.userDaoConverter(team.getManager()))
                                 .members(
                                         team.getMembers().stream().map(
-                                                UserDao::buildUserDao
+                                                UserDao::userDaoConverter
                                         ).toList()
                                 )
                                 .build())
