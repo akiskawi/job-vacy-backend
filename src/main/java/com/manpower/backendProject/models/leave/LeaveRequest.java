@@ -1,5 +1,7 @@
 package com.manpower.backendProject.models.leave;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.manpower.backendProject.models.Timestamped;
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
@@ -29,5 +31,6 @@ public class LeaveRequest extends Timestamped {
     private LeaveRequestSTATUS status;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIncludeProperties({"email", "id"})
     private User user;
 }

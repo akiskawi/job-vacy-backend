@@ -49,11 +49,7 @@ public class UserService {
         response.put("currentPage", page.getNumber() + 1);
         response.put("pages", page.getTotalPages());
         response.put("count", page.getTotalElements());
-//        List<LeaveRequestDao> response = findLoggedUser()
-//                .getRequests()
-//                .stream()
-//                .map(LeaveRequestDao::LeaveRequestDaoConverter)
-//                .toList();
+
         return ResponseEntity.ok(response);
     }
 

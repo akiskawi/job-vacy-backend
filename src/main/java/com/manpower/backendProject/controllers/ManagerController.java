@@ -12,19 +12,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/manager")
-// Mapping for the methods are subject to change when I talk to the frontend developer!
+@RequestMapping("api/v1/manager/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ManagerController {
 
     private final ManagerService service;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<TeamDao> getManagerTeam() {
         return service.getManagerTeam();
     }
     @GetMapping({"members","members/"})
-    public ResponseEntity<List<UserDao>> getManagerTeamMembers(){
-        return service.getManagerTeamMembers();
+    public ResponseEntity<Object> getManagerTeamMembers(
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ){
+        return service.getManagerTeamMembers(pageNo - 1, pageSize, sortBy);
     }
     @GetMapping("members/{id}")
     public ResponseEntity<List<LeaveRequestDao>> getMemberLeaveRequests(@PathVariable long id){
@@ -33,6 +37,15 @@ public class ManagerController {
     @PostMapping("members/{userId}/request/{requestId}")
     public ResponseEntity<String> evaluateRequest(@PathVariable long userId,@PathVariable long requestId,@RequestBody boolean flag){
         return service.evaluateRequest(userId,requestId,flag);
+    }
+
+    @GetMapping("requests")
+    public ResponseEntity<Object> getAllTeamRequests(
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return service.getAllTeamMembersRequests(pageNo - 1, pageSize, sortBy);
     }
 
 

@@ -1,20 +1,27 @@
 package com.manpower.backendProject.services;
 
-import com.manpower.backendProject.models.leave.LeaveRequestDao;
-import com.manpower.backendProject.models.leave.LeaveRequestNotFoundException;
-import com.manpower.backendProject.models.leave.LeaveRequestSTATUS;
+import com.manpower.backendProject.models.leave.*;
 import com.manpower.backendProject.models.team.TeamDao;
 import com.manpower.backendProject.models.user.User;
 import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.models.user.UserNotFoundException;
 import com.manpower.backendProject.repositories.LeaveRequestRepository;
 import com.manpower.backendProject.repositories.TeamRepository;
+import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.LoggedUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,35 +29,31 @@ public class ManagerService {
 
     private final TeamRepository teamRepository;
     private final LeaveRequestRepository requestRepository;
+    private final UserRepository userRepository;
 
-//    public ResponseEntity<Object> getTeamMembers(Long team_id) {
-//        var manager = repository.findByTeamManagerId(team_id);
-//        var users = repository.findUsersByTeam_Id(team_id);
-//        UserDao managerDao = null;
-//        if (manager.isPresent()) {
-//            managerDao = EntityToDaoHelper.userToUserDao(manager.get());
-//        }
-//        List<UserDao> usersDao = users.stream().map(EntityToDaoHelper::userToUserDao).toList();
-//        TeamDao teamDao = TeamDao.builder()
-//                .id(team_id)
-//                .manager(managerDao)
-//                .members(usersDao)
-//                .build();
-//        return ResponseEntity.ok(teamDao);
-//    }
-
-
-    //Dont need it?
+    //Don't need it?
     public ResponseEntity<TeamDao> getManagerTeam() {
         User manager = LoggedUser.get();
         var team = teamRepository.findByManager(manager);
         return ResponseEntity.ok(TeamDao.teamDaoConverter(team));
     }
 
-    public ResponseEntity<List<UserDao>> getManagerTeamMembers() {
+    public ResponseEntity<Object> getManagerTeamMembers(int pageNo, int pageSize, String sortBy) {
+        if(pageNo < 0) pageNo = 0;
+        if(pageSize < 1) pageSize = 10;
+
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
         User manager = LoggedUser.get();
-        var team = teamRepository.findByManager(manager);
-        return ResponseEntity.ok(team.getMembers().stream().map(UserDao::userDaoConverter).toList());
+        Page<User> page = userRepository.findUsersByTeam(manager.getTeamManager(), paging);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", page.getContent().stream().map(UserDao::userDaoConverter).toList());
+        response.put("currentPage", page.getNumber() + 1);
+        response.put("pages", page.getTotalPages());
+        response.put("count", page.getTotalElements());
+
+        return ResponseEntity.ok(response);
     }
 
     public ResponseEntity<List<LeaveRequestDao>> getMemberRequests(long userId) {
@@ -78,5 +81,23 @@ public class ManagerService {
             return ResponseEntity.ok("Request has been " + (flag ? "Approved" : "Denied"));
         }
         throw new LeaveRequestNotFoundException(String.format("Request with id=%s was not found from this member",requestId));
+    }
+
+    public ResponseEntity<Object> getAllTeamMembersRequests(int pageNo, int pageSize, String sortBy) {
+        if(pageNo < 0) pageNo = 0;
+        if(pageSize < 1) pageSize = 10;
+
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        User manager = LoggedUser.get();
+        Page<LeaveRequest> page = requestRepository.findByTeam(manager.getTeamManager(), paging);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", page.getContent().stream().map(LeaveRequestWithUserDao::leaveRequestDaoConverter).toList());
+        response.put("currentPage", page.getNumber() + 1);
+        response.put("pages", page.getTotalPages());
+        response.put("count", page.getTotalElements());
+
+        return ResponseEntity.ok(response);
     }
 }
