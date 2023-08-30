@@ -1,6 +1,8 @@
 package com.manpower.backendProject.controllers;
 
 import com.manpower.backendProject.models.leave.LeaveRequestDao;
+import com.manpower.backendProject.models.leave.LeaveRequestSTATUS;
+import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import com.manpower.backendProject.models.team.TeamDao;
 import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.services.ManagerService;
@@ -22,21 +24,24 @@ public class ManagerController {
     public ResponseEntity<TeamDao> getManagerTeam() {
         return service.getManagerTeam();
     }
-    @GetMapping({"members","members/"})
+
+    @GetMapping({"members", "members/"})
     public ResponseEntity<Object> getManagerTeamMembers(
             @RequestParam(defaultValue = "1") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
-    ){
+    ) {
         return service.getManagerTeamMembers(pageNo - 1, pageSize, sortBy);
     }
+
     @GetMapping("members/{id}")
-    public ResponseEntity<List<LeaveRequestDao>> getMemberLeaveRequests(@PathVariable long id){
+    public ResponseEntity<List<LeaveRequestDao>> getMemberLeaveRequests(@PathVariable long id) {
         return service.getMemberRequests(id);
     }
+
     @PostMapping("members/{userId}/request/{requestId}")
-    public ResponseEntity<String> evaluateRequest(@PathVariable long userId,@PathVariable long requestId,@RequestBody boolean flag){
-        return service.evaluateRequest(userId,requestId,flag);
+    public ResponseEntity<String> evaluateRequest(@PathVariable long userId, @PathVariable long requestId, @RequestBody LeaveRequestSTATUS status) {
+        return service.evaluateRequest(userId, requestId, status);
     }
 
     @GetMapping("requests")
@@ -47,6 +52,4 @@ public class ManagerController {
     ) {
         return service.getAllTeamMembersRequests(pageNo - 1, pageSize, sortBy);
     }
-
-
 }

@@ -66,19 +66,15 @@ public class ManagerService {
         throw new UserNotFoundException(String.format("User with id=%s is not member of your team", userId));
     }
 
-    public ResponseEntity<String> evaluateRequest(long userId, long requestId, boolean flag) {
+    public ResponseEntity<String> evaluateRequest(long userId, long requestId, LeaveRequestSTATUS status) {
         List<LeaveRequestDao> requests = getMemberRequests(userId).getBody();
         assert requests != null;
         var request = requests.stream().filter(req -> req.getId() == requestId).findFirst();
         if (request.isPresent()) {
             var leaveRequest = requestRepository.findById(requestId).get();
-            if (flag) {
-                leaveRequest.setStatus(LeaveRequestSTATUS.APPROVED);
-            } else {
-                leaveRequest.setStatus(LeaveRequestSTATUS.DENIED);
-            }
+            leaveRequest.setStatus(status);
             requestRepository.save(leaveRequest);
-            return ResponseEntity.ok("Request has been " + (flag ? "Approved" : "Denied"));
+            return ResponseEntity.ok("Request has been " + status.name());
         }
         throw new LeaveRequestNotFoundException(String.format("Request with id=%s was not found from this member",requestId));
     }
