@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface LeaveRequestAvailableDaysRepository extends JpaRepository<LeaveRequestAvailableDays,Long> {
     List<LeaveRequestAvailableDays> findByUser(User user);
-
-    List<LeaveRequestAvailableDays> findByUserAndType(User user, LeaveRequestTYPE type);
+//
+//    List<LeaveRequestAvailableDays> findByUserAndType(User user, LeaveRequestTYPE type);
 
 
 }

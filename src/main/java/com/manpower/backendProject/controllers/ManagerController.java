@@ -20,18 +20,18 @@ public class ManagerController {
 
     private final ManagerService service;
 
-    @GetMapping
-    public ResponseEntity<TeamDao> getManagerTeam() {
-        return service.getManagerTeam();
-    }
+//    @GetMapping
+//    public ResponseEntity<TeamDao> getTeam() {
+//        return service.getTeam();
+//    }
 
     @GetMapping({"members", "members/"})
-    public ResponseEntity<Object> getManagerTeamMembers(
+    public ResponseEntity<Object> getTeamMembers(
             @RequestParam(defaultValue = "1") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
     ) {
-        return service.getManagerTeamMembers(pageNo - 1, pageSize, sortBy);
+        return service.getTeamMembers(pageNo - 1, pageSize, sortBy);
     }
 
     @GetMapping("members/{id}")

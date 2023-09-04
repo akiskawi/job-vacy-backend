@@ -18,12 +18,12 @@ public class Team {
     @GeneratedValue
     private long id;
     @OneToOne
-    @JsonIgnoreProperties({"teamManager", "team"})
+    @JsonIgnoreProperties({"managedTeam", "team"})
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
     @ToString.Exclude
     private User manager;
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"teamManager", "team"})
+    @JsonIgnoreProperties({"managedTeam", "team"})
     @ToString.Exclude
     private List<User> members;
 }

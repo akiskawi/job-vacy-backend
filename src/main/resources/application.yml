@@ -20,7 +20,7 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   h2:
     console.enabled: true
 

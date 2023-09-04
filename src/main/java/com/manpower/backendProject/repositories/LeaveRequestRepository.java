@@ -16,6 +16,5 @@ import java.util.List;
 public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long> {
     Page<LeaveRequest> findByUser(User user, Pageable pageable);
 
-    @Query("SELECT lr FROM LeaveRequest lr JOIN lr.user u WHERE u.team = :team")
-    Page<LeaveRequest> findByTeam(@Param("team") Team team, Pageable page);
+    Page<LeaveRequest> findAllByUser_Team_Id(Long teamId, Pageable pageable);
 }

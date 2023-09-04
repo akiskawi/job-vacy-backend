@@ -27,3 +27,5 @@ public abstract class Timestamped {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 }
+
+// TODO: poy pragmatika xreiazetai auti i klasi kai poy oxi? Ti mas prosferei?

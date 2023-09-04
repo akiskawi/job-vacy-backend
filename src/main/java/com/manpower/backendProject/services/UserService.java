@@ -9,6 +9,7 @@ import com.manpower.backendProject.repositories.LeaveRequestAvailableDaysReposit
 import com.manpower.backendProject.repositories.LeaveRequestRepository;
 import com.manpower.backendProject.repositories.UserRepository;
 import com.manpower.backendProject.util.LoggedUser;
+import com.manpower.backendProject.util.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final LeaveRequestAvailableDaysRepository availableDaysRepository;
     private final PasswordEncoder encoder;
+    private final LoggedUser loggedUser;
+    private final PaginationUtil<LeaveRequest, LeaveRequestDao> leaveRequestPaginationUtil;
 
     /**
      * Get all users request
@@ -38,52 +41,56 @@ public class UserService {
      * @return List - LeaveRequestDao
      */
     public ResponseEntity<Object> getUserRequests(int pageNo, int pageSize, String sortBy) {
-        if(pageNo < 0) pageNo = 0;
-        if(pageSize < 1) pageSize = 10;
-
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Pageable paging = leaveRequestPaginationUtil.getPageable(pageNo, pageSize, sortBy);
         Page<LeaveRequest> page = leaveRequestRepository.findByUser(findLoggedUser(), paging);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("content", page.getContent().stream().map(LeaveRequestDao::leaveRequestDaoConverter).toList());
-        response.put("currentPage", page.getNumber() + 1);
-        response.put("pages", page.getTotalPages());
-        response.put("count", page.getTotalElements());
-
-        return ResponseEntity.ok(response);
+        return leaveRequestPaginationUtil.getPaginatedResponse(LeaveRequestDao::leaveRequestDaoConverter, page);
+//
+//        if(pageNo < 0) pageNo = 0;
+//        if(pageSize < 1) pageSize = 10;
+//
+//        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+//        Page<LeaveRequest> page = leaveRequestRepository.findByUser(findLoggedUser(), paging);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("content", page.getContent().stream().map(LeaveRequestDao::leaveRequestDaoConverter).toList());
+//        response.put("currentPage", page.getNumber() + 1);
+//        response.put("pages", page.getTotalPages());
+//        response.put("count", page.getTotalElements());
+//
+//        return ResponseEntity.ok(response);
     }
-
-    /**
-     * Change previous password
-     *
-     * @param requestResetPassword old and new Password
-     * @return if old password matches return HttpStatus 200
-     */
-    public ResponseEntity<String> changePassword(ResetPassword requestResetPassword) {
-        String oldPassword = requestResetPassword.getOldPassword();
-        String hashOldPassword = findLoggedUser().getPassword();
-        if (encoder.matches(oldPassword, hashOldPassword)) {
-            return resetPassword(findLoggedUser(), requestResetPassword.getNewPassword());
-        }
-        return ResponseEntity.badRequest().body("Not the same password!");
-    }
-
-    /**
-     * Reset password with the new password
-     *
-     * @param user        User entity that you want to reset the password
-     * @param newPassword String new Password
-     * @return HttpStatus 200
-     */
-    public ResponseEntity<String> resetPassword(User user, String newPassword) {
-        user.setPassword(encoder.encode(newPassword));
-        userRepository.save(user);
-        return ResponseEntity.ok(String.format("%s's password was change!", user.getFirstname()));
-    }
-
-    public ResponseEntity<String> resetPassword(String newPassword) {
-        return resetPassword(findLoggedUser(), newPassword);
-    }
+//
+//    /**
+//     * Change previous password
+//     *
+//     * @param requestResetPassword old and new Password
+//     * @return if old password matches return HttpStatus 200
+//     */
+//    public ResponseEntity<String> changePassword(ResetPassword requestResetPassword) {
+//        String oldPassword = requestResetPassword.getOldPassword();
+//        String hashOldPassword = findLoggedUser().getPassword();
+//        if (encoder.matches(oldPassword, hashOldPassword)) {
+//            return resetPassword(findLoggedUser(), requestResetPassword.getNewPassword());
+//        }
+//        return ResponseEntity.badRequest().body("Not the same password!");
+//    }
+//
+//    /**
+//     * Reset password with the new password
+//     *
+//     * @param user        User entity that you want to reset the password
+//     * @param newPassword String new Password
+//     * @return HttpStatus 200
+//     */
+//    public ResponseEntity<String> resetPassword(User user, String newPassword) {
+//        user.setPassword(encoder.encode(newPassword));
+//        userRepository.save(user);
+//        return ResponseEntity.ok(String.format("%s's password was change!", user.getFirstname()));
+//    }
+//
+//    public ResponseEntity<String> resetPassword(String newPassword) {
+//        return resetPassword(findLoggedUser(), newPassword);
+//    }
 
     /**
      * User creates leaveRequest,
@@ -125,11 +132,14 @@ public class UserService {
         return ResponseEntity.ok("The request was updated successfully.");
     }
 
-    public ResponseEntity<String> deleteRequest(long leaveRequestId) {
+    public ResponseEntity<Void> deleteRequest(long leaveRequestId) {
         LeaveRequest existingLeaveRequest = findLeaveRequestById(leaveRequestId);
-        leaveRequestRepository.delete(existingLeaveRequest);
-        return ResponseEntity.ok("Request deleted successfully.");
 
+        if (existingLeaveRequest.getStatus() != LeaveRequestSTATUS.PENDING) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can only update pending requests.");
+        }
+        leaveRequestRepository.delete(existingLeaveRequest);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -144,20 +154,20 @@ public class UserService {
                 .toList());
     }
 
-    /**
-     * @param type LeaveRequestType Enum
-     * @return A List of leaveRequest available days by type
-     */
-    public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getRemainingLeaveDaysByType(LeaveRequestTYPE type) {
-        return ResponseEntity.ok(availableDaysRepository
-                .findByUserAndType(findLoggedUser(), type)
-                .stream()
-                .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysDaoConverter)
-                .toList());
-    }
+//    /**
+//     * @param type LeaveRequestType Enum
+//     * @return A List of leaveRequest available days by type
+//     */
+//    public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getRemainingLeaveDaysByType(LeaveRequestTYPE type) {
+//        return ResponseEntity.ok(availableDaysRepository
+//                .findByUserAndType(findLoggedUser(), type)
+//                .stream()
+//                .map(LeaveRequestAvailableDaysDao::leaveRequestAvailableDaysDaoConverter)
+//                .toList());
+//    }
 
     private User findLoggedUser() {
-        return userRepository.findById(LoggedUser.getId())
+        return userRepository.findById(loggedUser.get().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
     }
 

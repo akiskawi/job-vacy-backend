@@ -42,7 +42,7 @@ public class User extends Timestamped implements UserDetails {
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
     @OneToOne(mappedBy = "manager")
-    private Team teamManager;
+    private Team managedTeam;
     @OneToMany(mappedBy = "user")
     private List<LeaveRequestAvailableDays> remainingDays = new ArrayList<>();
     private boolean enabled;

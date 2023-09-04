@@ -35,7 +35,7 @@ public class SecurityConfig {
     private static final String[] WHITELIST = {
             "/api/v1/auth/login",
             "/test/**",
-            "/endpoints",
+            "/endpoints", //TODO: not for production, only dev
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**"

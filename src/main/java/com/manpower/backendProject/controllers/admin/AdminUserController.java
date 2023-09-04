@@ -32,7 +32,7 @@ public class AdminUserController{
     }
 
     /**
-     * <p>Create a new user and return it</p>
+     * <p>Create a new user</p>
      * @param request = info about a new user
      * @return Success message
      */
@@ -54,24 +54,23 @@ public class AdminUserController{
         return service.updateUser(id, request);
     }
 
-    /**
-     * <p>Disable a user's account</p>
-     * @param id id of the user to disable
-     * @return Success message
-     */
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> DeActivateUser(@PathVariable long id) {
-        return service.deActiveAccount(id);
-    }
-
-    /**
-     * <p>Enable a user's account</p>
-     * @param id id of the user to enable
-     * @return Success message
-     */
-    @PostMapping("{id}")
-    public ResponseEntity<String> activateUser(@PathVariable long id) {
-        return service.activeAccount(id);
-    }
-
+//    /**
+//     * <p>Disable a user's account</p>
+//     * @param id id of the user to disable
+//     * @return Success message
+//     */
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<Void> DeActivateUser(@PathVariable long id) {
+//        return service.deActiveAccount(id);
+//    }
+//
+//    /**
+//     * <p>Enable a user's account</p>
+//     * @param id id of the user to enable
+//     * @return Success message
+//     */
+//    @PostMapping("{id}")
+//    public ResponseEntity<String> activateUser(@PathVariable long id) {
+//        return service.activeAccount(id);
+//    }
 }

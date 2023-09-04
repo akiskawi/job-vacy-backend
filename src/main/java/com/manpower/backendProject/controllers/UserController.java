@@ -1,9 +1,7 @@
 package com.manpower.backendProject.controllers;
 
 import com.manpower.backendProject.models.leave.LeaveRequestDao;
-import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDaysDao;
-import com.manpower.backendProject.models.user.ResetPassword;
 import com.manpower.backendProject.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +25,15 @@ public class UserController {
         return service.getUserRequests(pageNo - 1, pageSize, sortBy);
     }
 
-    @PutMapping("password")
-    public ResponseEntity<String> changePassword(@RequestBody ResetPassword resetPassword) {
-        return service.changePassword(resetPassword);
-    }
-
-    @PostMapping("password")
-    public ResponseEntity<String> resetPassword(@RequestBody String newPassword) {
-        return service.resetPassword(newPassword);
-    }
+//    @PutMapping("password")
+//    public ResponseEntity<String> changePassword(@RequestBody ResetPassword resetPassword) {
+//        return service.changePassword(resetPassword);
+//    }
+//
+//    @PostMapping("password")
+//    public ResponseEntity<String> resetPassword(@RequestBody String newPassword) {
+//        return service.resetPassword(newPassword);
+//    }
 
     @PostMapping("requests")
     public ResponseEntity<String> createRequest(@RequestBody LeaveRequestDao request) {
@@ -48,7 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping("requests/{id}")
-    public ResponseEntity<String> deleteRequest(@PathVariable long id) {
+    public ResponseEntity<Void> deleteRequest(@PathVariable long id) {
         return service.deleteRequest(id);
     }
 
@@ -57,10 +55,10 @@ public class UserController {
         return service.getRemainingLeaveDays();
     }
 
-    @GetMapping("days/{type}")
-    public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getAllRemainingDaysByType(@PathVariable LeaveRequestTYPE type) {
-        return service.getRemainingLeaveDaysByType(type);
-    }
+//    @GetMapping("days/{type}")
+//    public ResponseEntity<List<LeaveRequestAvailableDaysDao>> getAllRemainingDaysByType(@PathVariable LeaveRequestTYPE type) {
+//        return service.getRemainingLeaveDaysByType(type);
+//    }
 
 
 }

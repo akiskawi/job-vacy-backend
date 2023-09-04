@@ -27,17 +27,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public Map<String, String> handleUserAlreadyExists(RuntimeException ex) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", ex.getMessage());
+        response.put("message", ex.getMessage()); // TODO: response style 1
         return response;
-        // TODO: decide on response style
-        //return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-    }
-
-    private static class ErrorMessage {
-        private String message;
-
-        public ErrorMessage(String message) {
-            this.message = message;
-        }
+        // TODO: decide on response style. We use 2 everywhere (except here) for now
+        //return ResponseEntity.status(HttpStatus.CONFLICT).body(response); / TODO: response style 2
     }
 }

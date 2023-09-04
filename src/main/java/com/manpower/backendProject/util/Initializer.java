@@ -32,93 +32,75 @@ public class Initializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (userRepository.findAll().stream().findFirst().isPresent()) {
-            return;
-        }
-
-        var teamInit = Team
-                .builder()
+        var team = Team.builder()
                 .build();
+        Team teamDB = teamRepository.save(team);
 
-        Team team = teamRepository.save(teamInit);
+        var manager = User.builder()
+                .firstname("Panos")
+                .lastname("Lastname")
+                .email("manager@email.com")
+                .password(passwordEncoder.encode("1234"))
+                .roles(List.of(Role.MANAGER))
+                .managedTeam(teamDB)
+                .enabled(true)
+                .build();
+        User managerDB = userRepository.save(manager);
 
-        for (int i=0; i<10; i++) {
-            var user = User.builder()
-                    .firstname("User"+i)
-                    .lastname("Mock")
-                    .email("user"+i+"@email.com")
-                    .password(passwordEncoder.encode("1234"))
-                    .roles(List.of(Role.USER))
-                    .enabled(true)
-                    .build();
-            userRepository.save(user);
-        }
+
+        var user1 = User.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email("user1@email.com")
+                .password(passwordEncoder.encode("1234"))
+                .roles(List.of(Role.USER))
+                .team(teamDB)
+                .enabled(true)
+                .build();
+        User user1DB = userRepository.save(user1);
+
+        var user2 = User.builder()
+                .firstname("Jack")
+                .lastname("Bean")
+                .email("user2@email.com")
+                .password(passwordEncoder.encode("1234"))
+                .roles(List.of(Role.USER))
+                .team(teamDB)
+                .enabled(true)
+                .build();
+        User user2DB = userRepository.save(user2);
 
         var admin = User.builder()
-                .firstname("Admin")
-                .lastname("Mock")
+                .firstname("Sevi")
+                .lastname("Lastname")
                 .email("admin@email.com")
                 .password(passwordEncoder.encode("1234"))
                 .roles(List.of(Role.ADMIN))
                 .enabled(true)
                 .build();
-
-        var manager = User.builder()
-                .firstname("Manager")
-                .lastname("Test")
-                .email("manager@email.com")
-                .password(passwordEncoder.encode("1234"))
-                .roles(List.of(Role.MANAGER))
-//                .team(team)
-                .enabled(true)
-                .build();
-
-        var amanager = User.builder()
-                .firstname("Admin-Manager")
-                .lastname("Mock")
-                .email("amanager@email.com")
-                .password(passwordEncoder.encode("1234"))
-                .roles(List.of(Role.ADMIN, Role.MANAGER))
-                .team(team)
-                .enabled(true)
-                .build();
-
-
-        var auser = User.builder()
-                .firstname("Admin-User")
-                .lastname("Test")
-                .email("auser@email.com")
-                .password(passwordEncoder.encode("1234"))
-                .roles(List.of(Role.ADMIN, Role.USER))
-                .team(team)
-                .enabled(true)
-                .build();
-
         User adminDB = userRepository.save(admin);
-        User managerDB = userRepository.save(manager);
-        User amanagerDB = userRepository.save(amanager);
-        User auserDB = userRepository.save(auser);
+
+        teamDB.setMembers(List.of(user1DB, user2DB));
+        team.setManager(managerDB);
+        teamRepository.save(teamDB);
 
         var leave = LeaveRequest
                 .builder()
-                .startDate(LocalDate.of(2023, 1, 10))
-                .endDate(LocalDate.of(2023, 2, 10))
+                .startDate(LocalDate.of(2024, 1, 10))
+                .endDate(LocalDate.of(2024, 1, 13))
                 .type(LeaveRequestTYPE.KANONIKI)
                 .status(LeaveRequestSTATUS.PENDING)
-                .user(auserDB)
+                .user(user1DB)
                 .build();
         requestRepository.save(leave);
 
         var availableDays = LeaveRequestAvailableDays
                 .builder()
                 .type(LeaveRequestTYPE.KANONIKI)
-                .remaining((short) 20)
+                .remaining((short) 19)
                 .taken((short) 10)
-                .user(auserDB)
+                .user(user1DB)
                 .build();
         availableDaysRepository.save(availableDays);
-        team.setManager(managerDB);
-        team.setMembers(List.of(amanager, auserDB));
-        teamRepository.save(team);
     }
 }
