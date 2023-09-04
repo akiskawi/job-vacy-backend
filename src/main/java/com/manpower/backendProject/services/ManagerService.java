@@ -1,7 +1,6 @@
 package com.manpower.backendProject.services;
 
 import com.manpower.backendProject.models.leave.*;
-import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.user.User;
 import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.models.user.UserNotFoundException;
@@ -15,9 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,17 +25,17 @@ public class ManagerService {
     private final UserRepository userRepository;
     private final PaginationUtil<User, UserDao> userPaginationUtil;
     private final PaginationUtil<LeaveRequest, LeaveRequestWithUserDao> leaveRequestPaginationUtil;
-    private final LoggedUser loggedUser;
+//    private final LoggedUser loggedUser;
 
 //    public ResponseEntity<TeamDao> getTeam() {
-//        User manager = loggedUser.get();
+//        User manager = LoggedUser.get();
 //        var team = teamRepository.findByManager(manager);
 //        return ResponseEntity.ok(TeamDao.teamDaoConverter(team));
 //    }
 
     public ResponseEntity<Object> getTeamMembers(int pageNo, int pageSize, String sortBy) {
         Pageable paging = userPaginationUtil.getPageable(pageNo, pageSize, sortBy);
-        User manager = loggedUser.get();
+        User manager = LoggedUser.get();
         Page<User> page = userRepository.findUsersByTeam(manager.getManagedTeam(), paging);
         return userPaginationUtil.getPaginatedResponse(UserDao::userDaoConverter, page);
 //
@@ -55,7 +52,7 @@ public class ManagerService {
     }
 
     public ResponseEntity<List<LeaveRequestDao>> getMemberRequests(long userId) {
-        User manager = loggedUser.get(); //TODO: an xrhsimopoihthei na ginei paginated
+        User manager = LoggedUser.get(); //TODO: an xrhsimopoihthei na ginei paginated
         var team = teamRepository.findByManager(manager);
         var member = team.getMembers().stream().filter(user -> user.getId() == userId).findFirst();
         if (member.isPresent()) {
@@ -79,7 +76,7 @@ public class ManagerService {
 
     public ResponseEntity<Object> getAllTeamMembersRequests(int pageNo, int pageSize, String sortBy) {
         Pageable paging = leaveRequestPaginationUtil.getPageable(pageNo, pageSize, sortBy);
-        Long teamId = loggedUser.get().getManagedTeam().getId();
+        Long teamId = LoggedUser.get().getManagedTeam().getId();
         Page<LeaveRequest> page = requestRepository.findAllByUser_Team_Id(teamId, paging);
         return leaveRequestPaginationUtil.getPaginatedResponse(LeaveRequestWithUserDao::leaveRequestDaoConverter, page);
     }

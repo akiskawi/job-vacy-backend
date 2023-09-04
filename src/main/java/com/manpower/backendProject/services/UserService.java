@@ -32,7 +32,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final LeaveRequestAvailableDaysRepository availableDaysRepository;
     private final PasswordEncoder encoder;
-    private final LoggedUser loggedUser;
+//    private final LoggedUser loggedUser;
     private final PaginationUtil<LeaveRequest, LeaveRequestDao> leaveRequestPaginationUtil;
 
     /**
@@ -167,7 +167,7 @@ public class UserService {
 //    }
 
     private User findLoggedUser() {
-        return userRepository.findById(loggedUser.get().getId())
+        return userRepository.findById(LoggedUser.get().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
     }
 
