@@ -1,5 +1,6 @@
 package com.manpower.backendProject.models.leave;
 
+import com.manpower.backendProject.models.leave_types.LeaveType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class LeaveRequestWithUserDao {
     private long id;
     private long user_id;
     private String email;
-    private LeaveRequestTYPE type;
+    private LeaveType type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate startDate;
     @DateTimeFormat(pattern = "dd.MM.yyyy")

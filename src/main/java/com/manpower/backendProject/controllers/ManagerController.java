@@ -2,9 +2,6 @@ package com.manpower.backendProject.controllers;
 
 import com.manpower.backendProject.models.leave.LeaveRequestDao;
 import com.manpower.backendProject.models.leave.LeaveRequestSTATUS;
-import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
-import com.manpower.backendProject.models.team.TeamDao;
-import com.manpower.backendProject.models.user.UserDao;
 import com.manpower.backendProject.services.ManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

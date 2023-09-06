@@ -1,6 +1,6 @@
 package com.manpower.backendProject.models.leave_availability;
 
-import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
+import com.manpower.backendProject.models.leave_types.LeaveType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class LeaveRequestAvailableDaysDao {
     private long id;
     private short taken;
     private short remaining;
-    private LeaveRequestTYPE type;
+    private LeaveType type;
 
     public static LeaveRequestAvailableDaysDao leaveRequestAvailableDaysDaoConverter(LeaveRequestAvailableDays leaveRequestAvailableDays) {
         return LeaveRequestAvailableDaysDao

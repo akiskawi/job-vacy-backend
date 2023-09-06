@@ -2,22 +2,21 @@ package com.manpower.backendProject.util;
 
 import com.manpower.backendProject.models.leave.LeaveRequest;
 import com.manpower.backendProject.models.leave.LeaveRequestSTATUS;
-import com.manpower.backendProject.models.leave.LeaveRequestTYPE;
 import com.manpower.backendProject.models.leave_availability.LeaveRequestAvailableDays;
+import com.manpower.backendProject.models.leave_types.LeaveType;
 import com.manpower.backendProject.models.team.Team;
 import com.manpower.backendProject.models.user.Role;
 import com.manpower.backendProject.models.user.User;
-import com.manpower.backendProject.repositories.LeaveRequestAvailableDaysRepository;
-import com.manpower.backendProject.repositories.LeaveRequestRepository;
-import com.manpower.backendProject.repositories.TeamRepository;
-import com.manpower.backendProject.repositories.UserRepository;
+import com.manpower.backendProject.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +27,12 @@ public class Initializer implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final LeaveRequestRepository requestRepository;
     private final LeaveRequestAvailableDaysRepository availableDaysRepository;
+    private final LeaveTypeRepository leaveTypeRepository;
 
     @Override
     public void run(String... args) throws Exception {
+
+        Map<String, LeaveType> leaveTypes = initialLeaveTypes();
 
         var team = Team.builder()
                 .build();
@@ -88,7 +90,7 @@ public class Initializer implements CommandLineRunner {
                 .builder()
                 .startDate(LocalDate.of(2024, 1, 10))
                 .endDate(LocalDate.of(2024, 1, 13))
-                .type(LeaveRequestTYPE.KANONIKI)
+                .type(leaveTypes.get("kanoniki"))
                 .status(LeaveRequestSTATUS.PENDING)
                 .user(user1DB)
                 .build();
@@ -96,11 +98,46 @@ public class Initializer implements CommandLineRunner {
 
         var availableDays = LeaveRequestAvailableDays
                 .builder()
-                .type(LeaveRequestTYPE.KANONIKI)
+                .type(leaveTypes.get("kanoniki"))
                 .remaining((short) 19)
                 .taken((short) 10)
                 .user(user1DB)
                 .build();
         availableDaysRepository.save(availableDays);
+    }
+
+    private Map<String, LeaveType> initialLeaveTypes() {
+        Map<String, LeaveType> leaveTypes = new HashMap<>();
+
+        LeaveType kanoniki = LeaveType.builder()
+                .name("Κανονική")
+                .description("Η άδεια αυτή έχει όριο ημερών περίπου 20-25 μέρες το χρόνο ανάλογα την προϋπηρεσία.")
+                .hasDayLimit(true)
+                .build();
+
+        LeaveType aa = LeaveType.builder()
+                .name("Άνευ Αποδοχών")
+                .description("Η άδεια αυτή δεν πληρώνεται.")
+                .hasDayLimit(true)
+                .build();
+
+        LeaveType astheneias = LeaveType.builder()
+                .name("Ασθενείας")
+                .description("Η άδεια αυτή απαιτεί χαρτί γιατρού.")
+                .hasDayLimit(true)
+                .requiresDocuments(true)
+                .build();
+
+        LeaveType thlergasias = LeaveType.builder()
+                .name("Τηλεργασίας")
+                .description("Η άδεια αυτή χρησιμοποιείται για τηλεργασία.")
+                .hasDayLimit(true)
+                .build();
+
+        leaveTypes.put("kanoniki", leaveTypeRepository.save(kanoniki));
+        leaveTypes.put("aa", leaveTypeRepository.save(aa));
+        leaveTypes.put("astheneias", leaveTypeRepository.save(astheneias));
+        leaveTypes.put("thlergasias", leaveTypeRepository.save(thlergasias));
+        return leaveTypes;
     }
 }

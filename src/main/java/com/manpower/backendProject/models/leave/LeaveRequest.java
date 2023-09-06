@@ -3,6 +3,7 @@ package com.manpower.backendProject.models.leave;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.manpower.backendProject.models.Timestamped;
+import com.manpower.backendProject.models.leave_types.LeaveType;
 import com.manpower.backendProject.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,8 +22,9 @@ public class LeaveRequest extends Timestamped {
     @Id
     @GeneratedValue
     private long id;
-    @Enumerated(EnumType.STRING)
-    private LeaveRequestTYPE type;
+    @ManyToOne
+    @JoinColumn(name = "leave_type_id")
+    private LeaveType type;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate startDate;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
